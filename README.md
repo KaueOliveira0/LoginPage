@@ -30,6 +30,10 @@ O projeto foi construído utilizando as tecnologias fundamentais do desenvolvime
 4.  Abra a pasta no VS Code.
 5.  Clique com o botão direito no arquivo `index.html` e selecione **"Open with Live Server"**.
 
+## 👨‍💻 Avisos
+
+1. Icons ainda não funcionado.
+
 ## 👤 Autor
 
 **Kauê de Oliveira** Estudante de Análise e Desenvolvimento de Sistemas - 2/5 Semestres na Uniavan.
