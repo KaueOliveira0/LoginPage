@@ -1,4 +1,4 @@
-# 🔐 Modern Login Page
+# 🔐 Login Page
 
 Este é um projeto de uma página de login interativa e responsiva, desenvolvida com foco em UI/UX e transições suaves entre as telas de cadastro e login.
 
@@ -32,7 +32,7 @@ O projeto foi construído utilizando as tecnologias fundamentais do desenvolvime
 
 ## 👤 Autor
 
-**Kauê de Oliveira** Estudante de Análise e Desenvolvimento de Sistemas - 3/5 Semestres na Uniavan.
+**Kauê de Oliveira** Estudante de Análise e Desenvolvimento de Sistemas - 2/5 Semestres na Uniavan.
 
 ---
 Projetado para fins de estudo em Desenvolvimento Web.
