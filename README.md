@@ -25,7 +25,7 @@ O projeto foi construído utilizando as tecnologias fundamentais do desenvolvime
 2.  Instale a extensão **Live Server**.
 3.  Clone este repositório:
     ```bash
-    git clone [https://github.com/SEU-USUARIO/LoginPage.git](https://github.com/SEU-USUARIO/LoginPage.git)
+    git clone [https://github.com/KaueOliveira0/LoginPage.git]
     ```
 4.  Abra a pasta no VS Code.
 5.  Clique com o botão direito no arquivo `index.html` e selecione **"Open with Live Server"**.
