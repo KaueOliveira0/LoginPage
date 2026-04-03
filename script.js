@@ -16,19 +16,29 @@ loginBtn.addEventListener('click', () => {
 });
 
 // --- LÓGICA DE REGISTRO ---
+// --- LÓGICA DE REGISTRO ATUALIZADA ---
 signUpBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Impede o refresh da página
+    e.preventDefault();
     
     const name = document.getElementById('reg-name').value;
     const email = document.getElementById('reg-email').value;
     const pass = document.getElementById('reg-pass').value;
 
     if(name && email && pass) {
+        // 1. Verificar se o e-mail já existe no banco (LocalStorage)
+        const userExists = localStorage.getItem(email);
+
+        if (userExists) {
+            alert("Este e-mail já está cadastrado! Tente fazer login.");
+            container.classList.remove("active"); // Opcional: leva o usuário para o login
+            return; // PARA a execução aqui e não salva nada
+        }
+
+        // 2. Se não existir, salva normalmente
         const user = { name, email, pass };
-        // Salva no navegador como uma String JSON
         localStorage.setItem(email, JSON.stringify(user)); 
         alert("Conta criada com sucesso!");
-        container.classList.remove("active"); // Volta para a tela de login
+        container.classList.remove("active");
     } else {
         alert("Preencha todos os campos!");
     }
