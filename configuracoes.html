@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPanel - Configurações</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #512da8; --bg: #f4f7fe; --shadow: 0 8px 30px rgba(0,0,0,0.05); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { background: var(--bg); display: flex; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: var(--primary); color: white; height: 100vh; position: fixed; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
+        .sidebar ul { list-style: none; flex-grow: 1; margin-top: 30px; }
+        .sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; }
+        .sidebar li.active { background: rgba(255,255,255,0.2); }
+        .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+
+        .btn-sair { 
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            width: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px;
+            transition: 0.3s;
+            margin-bottom: 10px; /* Pequeno respiro do fundo da tela */
+        }
+
+        .btn-sair:hover { background: var(--danger); border-color: var(--danger); }
+
+        .main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
+        .config-card { background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); max-width: 500px; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; }
+        
+        .btn-salvar { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn-salvar:hover { opacity: 0.9; }
+
+        .mes-info { background: #eef2ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: var(--primary); font-weight: 600; text-align: center; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div>
+            <h2>DevPanel</h2>
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="financeiro.html"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                <li class="active"><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+            </ul>
+        </div>
+        <button class="btn-sair" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+        </button>
+    </nav>
+
+    <main class="main">
+    <h1>Configurações de Perfil</h1>
+    <div class="config-card">
+        <div class="month-picker" style="margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+            <button onclick="mudarMesConfig(-1)" style="border:none; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-chevron-left"></i></button>
+            <h3 id="mes-atual-label" style="margin:0;">Abril 2026</h3>
+            <button onclick="mudarMesConfig(1)" style="border:none; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="input-group">
+            <label>Renda para este mês (R$)</label>
+            <input type="number" id="renda-input" placeholder="Ex: 5200">
+            <small style="color: #666;">O valor salvo aqui será aplicado apenas ao mês exibido acima.</small>
+        </div>
+
+        <button class="btn-salvar" onclick="salvarConfig()">Salvar para este Mês</button>
+    </div>
+</main>
+
+    <script>
+        let dataRef = new Date();
+const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+function carregarConfig() {
+    const email = localStorage.getItem('lastLoggedIn');
+    if(!email) location.href='index.html';
+
+    const m = dataRef.getMonth(), a = dataRef.getFullYear();
+    document.getElementById('mes-atual-label').innerText = `${meses[m]} ${a}`;
+
+    // Busca o valor específico desse mês
+    const keyRenda = `renda_${email}_${m}-${a}`;
+    const rendaSalva = localStorage.getItem(keyRenda) || "0"; // Padrão 5000
+    document.getElementById('renda-input').value = rendaSalva;
+}
+
+function mudarMesConfig(dir) {
+    dataRef.setMonth(dataRef.getMonth() + dir);
+    carregarConfig();
+}
+
+function salvarConfig() {
+    const email = localStorage.getItem('lastLoggedIn');
+    const valor = document.getElementById('renda-input').value;
+    const m = dataRef.getMonth(), a = dataRef.getFullYear();
+    const keyRenda = `renda_${email}_${m}-${a}`;
+
+    localStorage.setItem(keyRenda, valor);
+    alert(`Renda de ${meses[m]} salva com sucesso!`);
+}
+
+function logout() {
+    localStorage.removeItem('lastLoggedIn');
+    location.href='index.html';
+}
+
+window.onload = carregarConfig;
+    </script>
+</body>
+</html>
