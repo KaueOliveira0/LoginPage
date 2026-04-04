@@ -59,8 +59,29 @@
             </div>
         </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
+    <script>
+        // Configuração do seu projeto
+        const firebaseConfig = {
+            apiKey: "AIzaSyBiHEK1MMew-1OXVpb1iUsnx249wPD6GYA",
+            authDomain: "pagefinanceirokaue.firebaseapp.com",
+            projectId: "pagefinanceirokaue",
+            storageBucket: "pagefinanceirokaue.firebasestorage.app",
+            messagingSenderId: "265354403807",
+            appId: "1:265354403807:web:2953fdf433e32ee3676e6a",
+            measurementId: "G-BFQSFB93FR"
+        };
+
+        // Inicializa o Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+            console.log("🔥 Firebase conectado com sucesso!");
+        }
+    </script>
+    
     <script src="script.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,231 @@
+[debug] [2026-04-04T13:35:29.733Z] ----------------------------------------------------------------------
+[debug] [2026-04-04T13:35:29.735Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\kauer\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-04-04T13:35:29.735Z] CLI Version:   15.13.0
+[debug] [2026-04-04T13:35:29.735Z] Platform:      win32
+[debug] [2026-04-04T13:35:29.735Z] Node Version:  v24.14.1
+[debug] [2026-04-04T13:35:29.735Z] Time:          Sat Apr 04 2026 10:35:29 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2026-04-04T13:35:29.735Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\kauer\OneDrive\Documentos\VScode\LoginPage
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-04-04T13:36:01.665Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-04T13:36:01.665Z] > authorizing via signed-in user (kauer123r@gmail.com)
+[debug] [2026-04-04T13:36:01.666Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:01.666Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:01.669Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2026-04-04T13:36:02.368Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-04-04T13:36:02.368Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] 
+=== Dataconnect Setup
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2026-04-04T13:36:03.824Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:03.824Z] Checked if tokens are valid: true, expires at: 1775313154572
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2026-04-04T13:36:03.825Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:03.825Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:03.825Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com [none]
+[debug] [2026-04-04T13:36:03.825Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:36:03.826Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com [none]
+[debug] [2026-04-04T13:36:03.826Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:36:04.819Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com 200
+[debug] [2026-04-04T13:36:04.819Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API firebasedataconnect.googleapis.com. Enabling now... 
+[debug] [2026-04-04T13:36:04.820Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:04.820Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:04.820Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com:enable [none]
+[debug] [2026-04-04T13:36:04.820Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com:enable  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:36:04.833Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com 200
+[debug] [2026-04-04T13:36:04.833Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2026-04-04T13:36:04.833Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:04.833Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:04.833Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com:enable [none]
+[debug] [2026-04-04T13:36:04.833Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com:enable  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:36:05.439Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com:enable 200
+[debug] [2026-04-04T13:36:05.439Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/sqladmin.googleapis.com:enable [omitted]
+[debug] [2026-04-04T13:36:05.450Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com:enable 200
+[debug] [2026-04-04T13:36:05.450Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firebasedataconnect.googleapis.com:enable [omitted]
+[debug] [2026-04-04T13:36:15.462Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:15.462Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:15.463Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services [none]
+[debug] [2026-04-04T13:36:16.935Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services 200
+[debug] [2026-04-04T13:36:16.935Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services {}
+[info] i  : ensuring required API cloudaicompanion.googleapis.com is enabled... 
+[debug] [2026-04-04T13:36:19.957Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:19.958Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:36:19.958Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/cloudaicompanion.googleapis.com [none]
+[debug] [2026-04-04T13:36:19.958Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/cloudaicompanion.googleapis.com  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:36:20.969Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/cloudaicompanion.googleapis.com 200
+[debug] [2026-04-04T13:36:20.969Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/cloudaicompanion.googleapis.com [omitted]
+[info] +  : required API cloudaicompanion.googleapis.com is enabled 
+[debug] [2026-04-04T13:41:24.486Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\kauer\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:508:28)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1327:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+    at ReadStream.emit (node:events:520:35)
+    at emitKeys (node:internal/readline/utils:371:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+    at ReadStream.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:563:12)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-04-04T13:41:33.212Z] ----------------------------------------------------------------------
+[debug] [2026-04-04T13:41:33.215Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\kauer\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-04-04T13:41:33.215Z] CLI Version:   15.13.0
+[debug] [2026-04-04T13:41:33.215Z] Platform:      win32
+[debug] [2026-04-04T13:41:33.215Z] Node Version:  v24.14.1
+[debug] [2026-04-04T13:41:33.215Z] Time:          Sat Apr 04 2026 10:41:33 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2026-04-04T13:41:33.215Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\kauer\OneDrive\Documentos\VScode\LoginPage
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-04-04T13:42:36.669Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-04T13:42:36.670Z] > authorizing via signed-in user (kauer123r@gmail.com)
+[debug] [2026-04-04T13:42:36.670Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:36.671Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:36.671Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pagefinanceirokaue [none]
+[debug] [2026-04-04T13:42:37.137Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pagefinanceirokaue 200
+[debug] [2026-04-04T13:42:37.137Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pagefinanceirokaue {"projectId":"pagefinanceirokaue","projectNumber":"265354403807","displayName":"PageFinanceirokaue","name":"projects/pagefinanceirokaue","resources":{"hostingSite":"pagefinanceirokaue"},"state":"ACTIVE","etag":"1_bdcc3ec8-4b30-464b-8b2f-fa191c1ee4c5"}
+[info] i  Using project pagefinanceirokaue (PageFinanceirokaue) . 
+[info] 
+=== Dataconnect Setup
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2026-04-04T13:42:37.152Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:37.152Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:37.152Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services [none]
+[debug] [2026-04-04T13:42:38.412Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services 200
+[debug] [2026-04-04T13:42:38.412Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/-/services {}
+[debug] [2026-04-04T13:42:43.772Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:43.772Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:43.772Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo [none]
+[debug] [2026-04-04T13:42:44.951Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo 200
+[debug] [2026-04-04T13:42:44.951Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo {"name":"projects/pagefinanceirokaue/billingInfo","projectId":"pagefinanceirokaue","billingAccountName":"","billingEnabled":false}
+[debug] [2026-04-04T13:42:44.952Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:44.952Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:44.952Z] >>> [apiv2][query] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ filter=metric.type%3D%22serviceruntime.googleapis.com%2Fquota%2Fallocation%2Fusage%22+AND+metric.label.quota_metric+%3D+%22sqladmin.googleapis.com%2Ffdc_lifetime_free_trial_per_project%22&interval.endTime=2026-04-04T13%3A42%3A44.951Z&interval.startTime=2026-03-28T13%3A42%3A44.951Z
+[debug] [2026-04-04T13:42:46.177Z] <<< [apiv2][status] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ 200
+[debug] [2026-04-04T13:42:46.177Z] <<< [apiv2][body] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ {"unit":"1"}
+[info] +  dataconnect: CloudSQL no cost trial available! 
+[debug] [2026-04-04T13:42:46.177Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:46.177Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:46.177Z] >>> [apiv2][query] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances [none]
+[debug] [2026-04-04T13:42:46.946Z] <<< [apiv2][status] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances 200
+[debug] [2026-04-04T13:42:46.946Z] <<< [apiv2][body] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances {}
+[debug] [2026-04-04T13:42:46.947Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:46.947Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:42:46.947Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations [none]
+[debug] [2026-04-04T13:42:47.953Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations 200
+[debug] [2026-04-04T13:42:47.953Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations {"locations":[{"name":"projects/pagefinanceirokaue/locations/asia-east1","locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/pagefinanceirokaue/locations/asia-east2","locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast1","locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast2","locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast3","locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/pagefinanceirokaue/locations/asia-south1","locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/pagefinanceirokaue/locations/asia-southeast1","locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/pagefinanceirokaue/locations/asia-southeast2","locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/pagefinanceirokaue/locations/australia-southeast1","locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/pagefinanceirokaue/locations/australia-southeast2","locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/pagefinanceirokaue/locations/europe-central2","locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/pagefinanceirokaue/locations/europe-north1","locationId":"europe-north1","displayName":"Finland"},{"name":"projects/pagefinanceirokaue/locations/europe-southwest1","locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/pagefinanceirokaue/locations/europe-west1","locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/pagefinanceirokaue/locations/europe-west2","locationId":"europe-west2","displayName":"London"},{"name":"projects/pagefinanceirokaue/locations/europe-west3","locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/pagefinanceirokaue/locations/europe-west4","locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/pagefinanceirokaue/locations/europe-west6","locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/pagefinanceirokaue/locations/europe-west8","locationId":"europe-west8","displayName":"Milan"},{"name":"projects/pagefinanceirokaue/locations/europe-west9","locationId":"europe-west9","displayName":"Paris"},{"name":"projects/pagefinanceirokaue/locations/me-west1","locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/pagefinanceirokaue/locations/northamerica-northeast1","locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/pagefinanceirokaue/locations/northamerica-northeast2","locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/pagefinanceirokaue/locations/southamerica-east1","locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/pagefinanceirokaue/locations/southamerica-west1","locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/pagefinanceirokaue/locations/us-central1","locationId":"us-central1","displayName":"Iowa"},{"name":"projects/pagefinanceirokaue/locations/us-east1","locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/pagefinanceirokaue/locations/us-east4","locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/pagefinanceirokaue/locations/us-south1","locationId":"us-south1","displayName":"Dallas"},{"name":"projects/pagefinanceirokaue/locations/us-west1","locationId":"us-west1","displayName":"Oregon"},{"name":"projects/pagefinanceirokaue/locations/us-west2","locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/pagefinanceirokaue/locations/us-west3","locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/pagefinanceirokaue/locations/us-west4","locationId":"us-west4","displayName":"Las Vegas"}]}
+[warn] !  dataconnect: Cannot detect an existing app in the current directory. 
+[info] i  dataconnect: > npx create-next-app@latest web-app --ts --eslint --tailwind --src-dir --app --turbopack --import-alias "@/*" --skip-install 
+[debug] [2026-04-04T13:43:30.183Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:30.183Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:30.183Z] >>> [apiv2][query] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances/loginpage-fdc [none]
+[debug] [2026-04-04T13:43:30.618Z] <<< [apiv2][status] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances/loginpage-fdc 404
+[debug] [2026-04-04T13:43:30.618Z] <<< [apiv2][body] GET https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances/loginpage-fdc {"error":{"code":404,"message":"The Cloud SQL instance does not exist.","errors":[{"message":"The Cloud SQL instance does not exist.","domain":"global","reason":"instanceDoesNotExist"}]}}
+[debug] [2026-04-04T13:43:30.618Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:30.618Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:30.618Z] >>> [apiv2][query] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ filter=metric.type%3D%22serviceruntime.googleapis.com%2Fquota%2Fallocation%2Fusage%22+AND+metric.label.quota_metric+%3D+%22sqladmin.googleapis.com%2Ffdc_lifetime_free_trial_per_project%22&interval.endTime=2026-04-04T13%3A43%3A30.618Z&interval.startTime=2026-03-28T13%3A43%3A30.618Z
+[debug] [2026-04-04T13:43:32.020Z] <<< [apiv2][status] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ 200
+[debug] [2026-04-04T13:43:32.020Z] <<< [apiv2][body] GET https://monitoring.googleapis.com/v3/projects/pagefinanceirokaue/timeSeries/ {"unit":"1"}
+[debug] [2026-04-04T13:43:32.020Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:32.020Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:32.020Z] >>> [apiv2][query] POST https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances [none]
+[debug] [2026-04-04T13:43:32.020Z] >>> [apiv2][body] POST https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances {"name":"loginpage-fdc","region":"southamerica-east1","databaseVersion":"POSTGRES_18","settings":{"tier":"db-f1-micro","edition":"ENTERPRISE","ipConfiguration":{"authorizedNetworks":[]},"enableGoogleMlIntegration":false,"databaseFlags":[{"name":"cloudsql.iam_authentication","value":"on"}],"storageAutoResize":false,"userLabels":{"firebase-data-connect":"ft"},"insightsConfig":{"queryInsightsEnabled":true,"queryPlansPerMinute":5,"queryStringLength":1024}}}
+[debug] [2026-04-04T13:43:38.224Z] <<< [apiv2][status] POST https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances 200
+[debug] [2026-04-04T13:43:38.224Z] <<< [apiv2][body] POST https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances {"kind":"sql#operation","targetLink":"https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/instances/loginpage-fdc","status":"PENDING","user":"kauer123r@gmail.com","insertTime":"2026-04-04T13:43:38.324Z","operationType":"CREATE","name":"26374631-f2e4-49a8-b660-f10000000030","targetId":"loginpage-fdc","selfLink":"https://sqladmin.googleapis.com/v1/projects/pagefinanceirokaue/operations/26374631-f2e4-49a8-b660-f10000000030","targetProject":"pagefinanceirokaue"}
+[debug] [2026-04-04T13:43:38.224Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:38.224Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:38.224Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo [none]
+[debug] [2026-04-04T13:43:39.419Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo 200
+[debug] [2026-04-04T13:43:39.419Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/pagefinanceirokaue/billingInfo {"name":"projects/pagefinanceirokaue/billingInfo","projectId":"pagefinanceirokaue","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: Cloud SQL Instance loginpage-fdc is being created.
+This instance is provided under the terms of the Data Connect no-cost trial https://firebase.google.com/pricing
+
+   Meanwhile, your data are saved in a temporary database and will be migrated once complete. 
+   Your free trial instance won't show in google cloud console until a billing account is added.
+   However, you can still use the gcloud cli to monitor your database instance:
+
+	e.g. gcloud sql instances list --project pagefinanceirokaue
+ 
+[debug] [2026-04-04T13:43:39.436Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:39.436Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:39.436Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/southamerica-east1/services/loginpage/schemas pageSize=100&pageToken=&fields=schemas.name%2Cschemas.datasources%2Cschemas.source
+[debug] [2026-04-04T13:43:39.843Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/southamerica-east1/services/loginpage/schemas 404
+[debug] [2026-04-04T13:43:39.843Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/pagefinanceirokaue/locations/southamerica-east1/services/loginpage/schemas {"error":{"code":404,"message":"Resource 'services/loginpage' was not found","status":"NOT_FOUND","details":[{"@type":"type.googleapis.com/google.rpc.ResourceInfo","resourceName":"services/loginpage"}]}}
+[info] +  Wrote dataconnect\dataconnect.yaml 
+[info] +  Wrote dataconnect\seed_data.gql 
+[info] +  Wrote dataconnect\schema\schema.gql 
+[info] +  Wrote dataconnect\example\connector.yaml 
+[info] +  Wrote dataconnect\example\queries.gql 
+[info] +  Wrote dataconnect\example\mutations.gql 
+[info] +  Wrote dataconnect\example\connector.yaml 
+[info] i  dataconnect: Installing the generated SDKs ... 
+[info] i  dataconnect: downloading dataconnect-emulator-3.3.1.exe... {"metadata":{"emulator":{"name":"dataconnect"},"message":"downloading dataconnect-emulator-3.3.1.exe..."}}
+[debug] [2026-04-04T13:43:39.905Z] >>> [apiv2][query] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-amd64-v3.3.1 
+[debug] [2026-04-04T13:43:40.268Z] <<< [apiv2][status] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-amd64-v3.3.1 200
+[debug] [2026-04-04T13:43:40.268Z] <<< [apiv2][body] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-amd64-v3.3.1 [stream]
+[debug] [2026-04-04T13:43:42.579Z] defaultcredentials: writing to file C:\Users\kauer\AppData\Roaming\firebase\kauer123r_gmail_com_application_default_credentials.json
+[error] !!  dataconnect: Failed to generate Data Connect SDKs
+spawn UNKNOWN 
+[info] +  dataconnect: Installed generated SDKs for web-app (web) 
+[info] i  Visit https://firebase.google.com/docs/data-connect/web-sdk#react for more information on how to set up React Generated SDKs for Firebase Data Connect 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-04-04T13:43:45.394Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:45.394Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:45.394Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com [none]
+[debug] [2026-04-04T13:43:45.394Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:43:46.437Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com 200
+[debug] [2026-04-04T13:43:46.437Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com [omitted]
+[warn] !  firestore: missing required API firestore.googleapis.com. Enabling now... 
+[debug] [2026-04-04T13:43:46.439Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:46.439Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:46.439Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com:enable [none]
+[debug] [2026-04-04T13:43:46.439Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com:enable  x-goog-user-project=pagefinanceirokaue
+[debug] [2026-04-04T13:43:47.798Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com:enable 200
+[debug] [2026-04-04T13:43:47.798Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/pagefinanceirokaue/services/firestore.googleapis.com:enable [omitted]
+[debug] [2026-04-04T13:43:57.814Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:57.814Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:57.814Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/databases [none]
+[debug] [2026-04-04T13:43:58.861Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/databases 200
+[debug] [2026-04-04T13:43:58.861Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/databases {}
+[debug] [2026-04-04T13:43:58.861Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:58.861Z] Checked if tokens are valid: true, expires at: 1775313154572
+[debug] [2026-04-04T13:43:58.862Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/locations [none]
+[debug] [2026-04-04T13:43:59.134Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/locations 200
+[debug] [2026-04-04T13:43:59.135Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/pagefinanceirokaue/locations {"locations":[{"name":"projects/pagefinanceirokaue/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/pagefinanceirokaue/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/pagefinanceirokaue/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/pagefinanceirokaue/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/pagefinanceirokaue/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/pagefinanceirokaue/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/pagefinanceirokaue/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/pagefinanceirokaue/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/pagefinanceirokaue/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/pagefinanceirokaue/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/pagefinanceirokaue/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/pagefinanceirokaue/locations/asia-southeast3","labels":{"cloud.googleapis.com/location":"asia-southeast3","cloud.googleapis.com/region":"asia-southeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast3","displayName":"Bangkok"},{"name":"projects/pagefinanceirokaue/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/pagefinanceirokaue/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/pagefinanceirokaue/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/pagefinanceirokaue/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/pagefinanceirokaue/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/pagefinanceirokaue/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/pagefinanceirokaue/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/pagefinanceirokaue/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/pagefinanceirokaue/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/pagefinanceirokaue/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/pagefinanceirokaue/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/pagefinanceirokaue/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/pagefinanceirokaue/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/pagefinanceirokaue/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/pagefinanceirokaue/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/pagefinanceirokaue/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/pagefinanceirokaue/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/pagefinanceirokaue/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/pagefinanceirokaue/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/pagefinanceirokaue/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/pagefinanceirokaue/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/pagefinanceirokaue/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/pagefinanceirokaue/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/pagefinanceirokaue/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/pagefinanceirokaue/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/pagefinanceirokaue/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/pagefinanceirokaue/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/pagefinanceirokaue/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/pagefinanceirokaue/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/pagefinanceirokaue/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/pagefinanceirokaue/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/pagefinanceirokaue/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"}]}
