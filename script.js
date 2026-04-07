@@ -101,3 +101,27 @@ googleBtn.addEventListener('click', (e) => {
             }
         });
 });
+
+const githubBtn = document.getElementById('github-login');
+
+githubBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const provider = new firebase.auth.GithubAuthProvider();
+
+    auth.signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            return db.collection("usuarios").doc(user.uid).set({
+                nome: user.displayName || "Usuário GitHub",
+                email: user.email,
+                criadoEm: new Date()
+            }, { merge: true });
+        })
+        .then(() => {
+            window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+            console.error("Erro no GitHub Login:", error);
+            alert("Erro ao logar com GitHub: " + error.message);
+        });
+});
