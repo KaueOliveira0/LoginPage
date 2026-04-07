@@ -33,14 +33,14 @@
             <form>
                 <h1>Login</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="icon" id="google-login"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon" id="facebook-login"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon" id="github-login"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon" id="linkedin-login"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <input type="email" id="login-email" placeholder="Email">
                 <input type="password" id="login-pass" placeholder="Senha">
-                <a href="#">Esqueceu a Senha?</a>
+                <a href="#" id="forgot-password">Esqueceu a Senha?</a>
                 <button id="btn-signin">Login</button>
             </form>
         </div>
@@ -80,6 +80,8 @@
             firebase.initializeApp(firebaseConfig);
             console.log("🔥 Firebase conectado com sucesso!");
         }
+
+        
     </script>
     
     <script src="script.js"></script>

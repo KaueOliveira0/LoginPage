@@ -51,3 +51,53 @@ auth.signInWithEmailAndPassword(email, pass)
         alert("Erro: " + error.message);
     });
 });
+
+// --- FUNÇÃO ESQUECEU A SENHA ---
+const forgotPassLink = document.getElementById('forgot-password');
+
+forgotPassLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+
+    if (!email) {
+        alert("Por favor, digite seu e-mail no campo de login primeiro.");
+        return;
+    }
+
+    auth.sendPasswordResetEmail(email)
+        .then(() => {
+            alert("E-mail de redefinição enviado! Verifique sua caixa de entrada.");
+        })
+        .catch((error) => {
+            alert("Erro: " + error.message);
+        });
+});
+
+// --- FUNÇÃO LOGIN COM GOOGLE ---
+const googleBtn = document.getElementById('google-login');
+
+googleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            
+            // Verifica se o usuário já existe no Firestore, se não, cria o perfil dele
+            return db.collection("usuarios").doc(user.uid).set({
+                nome: user.displayName,
+                email: user.email,
+                criadoEm: new Date()
+            }, { merge: true }); // O merge evita apagar dados se o usuário já existir
+        })
+        .then(() => {
+            window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+            console.error("Erro no Google Login:", error);
+            if(error.code !== 'auth/popup-closed-by-user') {
+                alert("Erro ao logar com Google: " + error.message);
+            }
+        });
+});
