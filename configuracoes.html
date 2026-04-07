@@ -2,66 +2,50 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevPanel - Configurações</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #512da8; --bg: #f4f7fe; --shadow: 0 8px 30px rgba(0,0,0,0.05); --danger: #e74c3c; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); display: flex; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
-        
-        .sidebar { width: 260px; background: var(--primary); color: white; height: 100vh; position: fixed; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
-        .sidebar h2 { font-weight: 700; margin-bottom: 30px; text-align: center; }
-        .sidebar ul { list-style: none; flex-grow: 1; }
-        .sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
+        :root { --primary: #512da8; --bg: #f4f7fe; --shadow: 0 8px 30px rgba(0,0,0,0.05); }
+        body { background: var(--bg); display: flex; font-family: 'Montserrat', sans-serif; min-height: 100vh; margin: 0; }
+        .sidebar { width: 260px; background: var(--primary); color: white; height: 100vh; position: fixed; padding: 25px; display: flex; flex-direction: column; }
+        .sidebar h2 { margin-bottom: 30px; text-align: center; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; }
         .sidebar li.active { background: rgba(255,255,255,0.2); }
-        .sidebar li:hover { background: rgba(255,255,255,0.1); }
         .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
-
-        .btn-sair { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; }
-        .btn-sair:hover { background: var(--danger); border-color: var(--danger); }
-
-        .main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
+        .main { margin-left: 260px; padding: 40px; width: 100%; }
         .config-card { background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); max-width: 500px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; }
-        .btn-salvar { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
-        .btn-salvar:hover { opacity: 0.9; }
+        .month-picker { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .month-picker button { border: none; background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .btn-salvar { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
     <nav class="sidebar">
-        <div>
-            <h2>Painel Financeiro</h2>
-            <ul>
-                <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a href="financeiro.html"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                <li class="active"><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
-            </ul>
-        </div>
-        <button class="btn-sair" onclick="logout()">
-            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
-        </button>
+        <h2>Painel</h2>
+        <ul>
+            <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="financeiro.html"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+            <li class="active"><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+        </ul>
     </nav>
 
     <main class="main">
-        <h1>Configurações de Perfil</h1>
         <div class="config-card">
-            <div class="month-picker" style="margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <button onclick="mudarMesConfig(-1)" style="border:none; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-chevron-left"></i></button>
-                <h3 id="mes-atual-label" style="margin:0;">Carregando...</h3>
-                <button onclick="mudarMesConfig(1)" style="border:none; background:var(--primary); color:white; width:30px; height:30px; border-radius:50%; cursor:pointer;"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
+            <h2>Configurações de Renda</h2>
+            <p>Defina sua renda para o mês selecionado:</p>
             
-            <div class="input-group">
-                <label>Renda para este mês (R$)</label>
-                <input type="number" id="renda-input" placeholder="Ex: 5000">
-                <small style="color: #666; display: block; margin-top: 5px;">O valor salvo será sincronizado com seu Dashboard na nuvem.</small>
+            <div class="month-picker">
+                <button onclick="mudarMes(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                <h3 id="mes-label">...</h3>
+                <button onclick="mudarMes(1)"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
-            <button class="btn-salvar" id="btnSalvar" onclick="salvarConfig()">Salvar para este Mês</button>
+            <label>Renda Mensal (R$):</label>
+            <input type="number" id="renda-input" placeholder="Ex: 5000.00">
+            <button class="btn-salvar" onclick="salvarConfig()">Salvar Configuração</button>
         </div>
     </main>
 
@@ -84,78 +68,52 @@
         const auth = firebase.auth();
 
         let dataRef = new Date();
-        const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+        const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
-        // Monitora login
+        // VIGIA DE LOGIN (Isso impede de voltar para o login sozinho)
         auth.onAuthStateChanged((user) => {
             if (user) {
-                carregarConfig();
+                carregarRenda();
             } else {
                 window.location.href = "index.html";
             }
         });
 
-        function carregarConfig() {
+        async function carregarRenda() {
             const user = auth.currentUser;
             const m = dataRef.getMonth();
             const a = dataRef.getFullYear();
-            document.getElementById('mes-atual-label').innerText = `${meses[m]} ${a}`;
+            document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-            // Busca a renda do mês específico no Firestore
-            db.collection("configuracoes")
-                .doc(`${user.uid}_${m}_${a}`)
-                .get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        document.getElementById('renda-input').value = doc.data().renda;
-                    } else {
-                        document.getElementById('renda-input').value = "";
-                    }
-                });
+            const doc = await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).get();
+            if (doc.exists) {
+                document.getElementById('renda-input').value = doc.data().renda;
+            } else {
+                document.getElementById('renda-input').value = "";
+            }
         }
 
-        function mudarMesConfig(dir) {
-            dataRef.setMonth(dataRef.getMonth() + dir);
-            carregarConfig();
-        }
-
-        function salvarConfig() {
+        async function salvarConfig() {
             const user = auth.currentUser;
-            const valor = parseFloat(document.getElementById('renda-input').value) || 0;
+            const renda = parseFloat(document.getElementById('renda-input').value);
             const m = dataRef.getMonth();
             const a = dataRef.getFullYear();
 
-            const btn = document.getElementById('btnSalvar');
-            btn.innerText = "Salvando...";
-            btn.disabled = true;
+            if (isNaN(renda)) return alert("Digite um valor válido!");
 
-            // Salva no Firestore usando um ID único por mês/ano do usuário
-            db.collection("configuracoes")
-                .doc(`${user.uid}_${m}_${a}`)
-                .set({
-                    uid: user.uid,
-                    renda: valor,
-                    mes: m,
-                    ano: a,
-                    atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-                })
-                .then(() => {
-                    alert(`Renda de ${meses[m]} sincronizada com a nuvem!`);
-                })
-                .catch(error => {
-                    console.error("Erro ao salvar:", error);
-                    alert("Erro ao salvar dados.");
-                })
-                .finally(() => {
-                    btn.innerText = "Salvar para este Mês";
-                    btn.disabled = false;
-                });
-        }
-
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = "index.html";
+            await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).set({
+                uid: user.uid,
+                renda: renda,
+                mes: m,
+                ano: a
             });
+
+            alert("Renda salva com sucesso!");
+        }
+
+        function mudarMes(dir) {
+            dataRef.setMonth(dataRef.getMonth() + dir);
+            carregarRenda();
         }
     </script>
 </body>

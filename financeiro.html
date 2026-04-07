@@ -162,12 +162,11 @@
     const a = dataFiltro.getFullYear();
     document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-    // Tente carregar SEM o orderBy primeiro se não quiser criar índices agora
     db.collection("gastos")
         .where("uid", "==", user.uid)
         .where("mes", "==", m)
         .where("ano", "==", a)
-        // .orderBy("dataVenc", "asc") // Se der erro, comente esta linha
+        // .orderBy("dataVenc", "asc")  <-- COMENTE OU APAGUE ESTA LINHA
         .get()
         .then((querySnapshot) => {
             const corpo = document.getElementById('tabela-corpo');
