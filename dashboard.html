@@ -102,7 +102,7 @@
             <li><a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a></li>
         </ul>
         <button class="btn-sair" onclick="logout()">
-            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+    <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
         </button>
     </nav>
 
@@ -198,8 +198,20 @@
     }
 
     function logout() {
-        auth.signOut().then(() => window.location.href = 'index.html');
-    }
+    // 1. Comando oficial do Firebase para encerrar a sessão
+    firebase.auth().signOut().then(() => {
+        // 2. Limpa o e-mail salvo (opcional, para segurança)
+        localStorage.removeItem('lastLoggedIn');
+        
+        // 3. Manda o usuário de volta para a tela de login
+        window.location.href = "index.html";
+        
+        console.log("Usuário deslogado com sucesso!");
+    }).catch((error) => {
+        console.error("Erro ao sair:", error);
+        alert("Erro ao tentar sair da conta.");
+    });
+}
 </script>
 
     <script>
