@@ -3,11 +3,26 @@ const auth = firebase.auth();
 
 let dataVisualizacao = new Date();
 
-// 1. Monitora o usuário para carregar os dados assim que o Firebase estiver pronto
+// Vigia de Login Inteligente
 auth.onAuthStateChanged((user) => {
     if (user) {
-        renderizar();
+        console.log("Usuário autenticado:", user.email);
+        
+        // Aqui você chama as funções específicas de cada página
+        if (typeof listar === "function") listar(); 
+        if (typeof atualizarDashboard === "function") atualizarDashboard(user.uid);
+        if (typeof carregarRenda === "function") carregarRenda();
+
+        // Busca o nome do usuário para exibir no painel
+        db.collection("usuarios").doc(user.uid).get().then((doc) => {
+            const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
+            const campoNome = document.getElementById('user-name');
+            if (campoNome) campoNome.innerText = nomeExibicao;
+        });
+
     } else {
+        // Se o Firebase confirmou que REALMENTE não há usuário
+        console.warn("Nenhum usuário logado. Redirecionando...");
         window.location.href = "index.html";
     }
 });

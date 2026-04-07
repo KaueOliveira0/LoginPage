@@ -111,27 +111,27 @@
         let dataFiltro = new Date();
         const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
-        auth.onAuthStateChanged((user) => {
+        // Vigia de Login Inteligente
+auth.onAuthStateChanged((user) => {
     if (user) {
-        console.log("Usuário confirmado:", user.email);
-        // Só chama as funções de carregar dados DEPOIS da confirmação
-        if (typeof listar === "function") listar(); 
-        if (typeof carregarRenda === "function") carregarRenda();
+        console.log("Usuário autenticado:", user.email);
         
-        // Se você tiver um campo de nome no topo da página:
+        // Aqui você chama as funções específicas de cada página
+        if (typeof listar === "function") listar(); 
+        if (typeof atualizarDashboard === "function") atualizarDashboard(user.uid);
+        if (typeof carregarRenda === "function") carregarRenda();
+
+        // Busca o nome do usuário para exibir no painel
         db.collection("usuarios").doc(user.uid).get().then((doc) => {
-            if (doc.exists && document.getElementById('user-name')) {
-                document.getElementById('user-name').innerText = doc.data().nome;
-            }
+            const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
+            const campoNome = document.getElementById('user-name');
+            if (campoNome) campoNome.innerText = nomeExibicao;
         });
+
     } else {
-        // Pequeno atraso para evitar falsos negativos de carregamento
-        setTimeout(() => {
-            if (!auth.currentUser) {
-                console.log("Nenhum usuário detectado, redirecionando...");
-                window.location.href = "index.html";
-            }
-        }, 1000); 
+        // Se o Firebase confirmou que REALMENTE não há usuário
+        console.warn("Nenhum usuário logado. Redirecionando...");
+        window.location.href = "index.html";
     }
 });
 
