@@ -52,24 +52,36 @@ auth.signInWithEmailAndPassword(email, pass)
     });
 });
 
-// --- FUNÇÃO ESQUECEU A SENHA --- 
-const forgotPassLink = document.getElementById('forgot-password');
+// 1. Identifica o link de esqueci a senha no seu HTML
+const recuperarSenhaLink = document.getElementById('forgot-password');
 
-forgotPassLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
+// 2. Adiciona o evento de clique
+recuperarSenhaLink.addEventListener('click', (e) => {
+    e.preventDefault(); // Impede a página de recarregar
 
-    if (!email) {
+    // Pega o e-mail que o usuário digitou no campo de login
+    const emailUsuario = document.getElementById('login-email').value;
+
+    if (!emailUsuario) {
         alert("Por favor, digite seu e-mail no campo de login primeiro.");
         return;
     }
 
-    auth.sendPasswordResetEmail(email)
+    // 3. Chama a função do Firebase usando o e-mail da variável
+    auth.sendPasswordResetEmail(emailUsuario)
         .then(() => {
-            alert("E-mail de redefinição enviado! Verifique sua caixa de entrada.");
+            alert("Sucesso! Verifique seu e-mail para redefinir a senha.");
+            console.log("E-mail de recuperação enviado para: " + emailUsuario);
         })
         .catch((error) => {
-            alert("Erro: " + error.message);
+            console.error("Erro detalhado:", error.code, error.message);
+            
+            // Tratamento de erros comuns
+            if (error.code === 'auth/user-not-found') {
+                alert("Este e-mail não está cadastrado em nosso sistema.");
+            } else {
+                alert("Erro ao enviar e-mail: " + error.message);
+            }
         });
 });
 
