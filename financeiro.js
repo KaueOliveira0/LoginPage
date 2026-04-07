@@ -44,16 +44,15 @@ async function adicionarGasto() {
     // --- MUDANÇA AQUI: Salvando na subcoleção do usuário ---
     const usuarioRef = db.collection("usuarios").doc(user.uid).collection("gastos");
 
-        await usuarioRef.add({
-            descricao: desc,
-            valor: valorParcela,
-            categoria: categoria,
-            mes: dataParcela.getMonth(),
-            ano: dataParcela.getFullYear(),
-            pago: false,
-            dataCriacao: firebase.firestore.FieldValue.serverTimestamp()
-            // O campo 'uid' dentro do objeto agora é opcional, pois o ID já está no nome da pasta pai
-        });
+            await usuarioRef.add({
+                info: desc,           // O nome do item (ex: 'aluguel')
+                valor: valorParcela,  // O valor numérico
+                mes: dataParcela.getMonth(),
+                ano: dataParcela.getFullYear(),
+                pago: false,
+                cat: categoria,       // A categoria que você escolheu no select
+                criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
     alert("Gasto(s) adicionado(s) com sucesso!");
     document.getElementById('desc').value = "";
