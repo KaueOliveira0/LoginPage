@@ -52,7 +52,7 @@ auth.signInWithEmailAndPassword(email, pass)
     });
 });
 
-// --- FUNÇÃO ESQUECEU A SENHA ---
+// --- FUNÇÃO ESQUECEU A SENHA --- 
 const forgotPassLink = document.getElementById('forgot-password');
 
 forgotPassLink.addEventListener('click', (e) => {
