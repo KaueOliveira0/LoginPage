@@ -140,6 +140,10 @@ auth.onAuthStateChanged((user) => {
             dataRef.setMonth(dataRef.getMonth() + dir);
             carregarRenda();
         }
+
+        function logout() {
+            auth.signOut().then(() => { window.location.href = "index.html"; });
+        }
     </script>
 </body>
 </html>
