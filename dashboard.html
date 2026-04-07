@@ -122,32 +122,22 @@
         let meuChart = null;
 
         auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log("Usuário autenticado:", user.email);
-        
-        // 1. Inicia o carregamento dos dados do dashboard
-        atualizarDashboard();
-
-        // 2. BUSCA O NOME DO USUÁRIO NO BANCO DE DADOS
-        // O Firestore vai na coleção 'usuarios' buscar o documento que tem o ID do usuário logado
-        db.collection("usuarios").doc(user.uid).get().then((doc) => {
-            if (doc.exists && doc.data().nome) {
-                // Se o documento existe e tem o campo 'nome', ele substitui o "Carregando..."
-                document.getElementById('user-name').innerText = doc.data().nome;
+            if (user) {
+                atualizarDashboard();
+                
+                db.collection("usuarios").doc(user.uid).get().then((doc) => {
+                    if (doc.exists && doc.data().nome) {
+                        document.getElementById('user-name').innerText = doc.data().nome;
+                    } else {
+                        document.getElementById('user-name').innerText = "Usuário";
+                    }
+                }).catch(() => {
+                    document.getElementById('user-name').innerText = "Usuário";
+                });
             } else {
-                // Caso não encontre o nome (erro no registro), mostra o e-mail ou "Usuário"
-                document.getElementById('user-name').innerText = user.displayName || "Usuário";
+                window.location.href = "index.html";
             }
-        }).catch((error) => {
-            console.error("Erro ao buscar nome:", error);
-            document.getElementById('user-name').innerText = "Usuário";
         });
-
-    } else {
-        // Se não estiver logado, volta para a tela de login
-        window.location.href = "index.html";
-    }
-});
 
         async function atualizarDashboard() {
             const user = auth.currentUser;
@@ -159,23 +149,24 @@
             
             document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
+            // REFERÊNCIA PARA A SUBCOLEÇÃO DO USUÁRIO
+            const gastosRef = db.collection("usuarios").doc(user.uid).collection("gastos");
+
             try {
                 // 1. BUSCAR RENDA
                 const configDoc = await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).get();
                 const renda = configDoc.exists ? configDoc.data().renda : 0;
                 document.getElementById('renda-display').innerText = `R$ ${renda.toFixed(2)}`;
 
-                // 2. BUSCAR GASTOS DO MÊS SELECIONADO (Filtro normal)
-                const snapshot = await db.collection("gastos")
-                    .where("uid", "==", user.uid)
+                // 2. BUSCAR GASTOS DO MÊS (Subcoleção)
+                const snapshot = await gastosRef
                     .where("mes", "==", m)
                     .where("ano", "==", a)
                     .get();
 
-                // 3. BUSCAR TODOS OS ATRASADOS (Global - Independente do mês no filtro)
+                // 3. BUSCAR ATRASADOS (Subcoleção)
                 const hojeISO = new Date().toISOString().split('T')[0];
-                const snapAtrasados = await db.collection("gastos")
-                    .where("uid", "==", user.uid)
+                const snapAtrasados = await gastosRef
                     .where("pago", "==", false)
                     .where("dataVenc", "<", hojeISO)
                     .get();
@@ -184,7 +175,6 @@
                 let totalPendente = 0;
                 const categorias = { fixo: 0, comida: 0, eletro: 0, lazer: 0, outros: 0 };
 
-                // Processa gastos do mês para cartões e gráfico
                 snapshot.forEach((doc) => {
                     const g = doc.data();
                     totalGeral += g.valor;
@@ -194,7 +184,6 @@
                     }
                 });
 
-                // Processa a lista de faturas atrasadas para o box da direita
                 let atrasadosHtml = '';
                 snapAtrasados.forEach((doc) => {
                     const g = doc.data();
@@ -229,6 +218,7 @@
 
             } catch (error) {
                 console.error("Erro ao atualizar dashboard:", error);
+                // Caso peça índice aqui também, o link aparecerá no console (F12)
             }
         }
 
