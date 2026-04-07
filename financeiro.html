@@ -173,56 +173,77 @@ auth.onAuthStateChanged((user) => {
             listar();
         }
 
-        function listar() {
+       async function listar() {
     const user = auth.currentUser;
-    if(!user) return;
+    if (!user) return;
 
     const m = dataFiltro.getMonth();
     const a = dataFiltro.getFullYear();
     document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-    db.collection("gastos")
-        .where("uid", "==", user.uid)
-        .where("mes", "==", m)
-        .where("ano", "==", a)
-        // .orderBy("dataVenc", "asc")  <-- COMENTE OU APAGUE ESTA LINHA
-        .get()
-        .then((querySnapshot) => {
-            const corpo = document.getElementById('tabela-corpo');
-            let html = '';
-            
-            if (querySnapshot.empty) {
-                corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum gasto encontrado para este mês.</td></tr>';
-                return;
-            }
+    const hoje = new Date().toISOString().split('T')[0]; // Data de hoje no formato YYYY-MM-DD
 
-            querySnapshot.forEach((doc) => {
-                const g = doc.data();
-                html += `
-                    <tr class="${g.pago ? 'riscado' : ''}">
-                        <td>
-                            <button onclick="alternarPago('${doc.id}', ${g.pago})" class="btn-pago ${g.pago ? 'pago-true' : 'pago-false'}">
-                                ${g.pago ? '✅ Pago' : '⏳ Pagar'}
-                            </button>
-                        </td>
-                        <td><strong>${g.dataVenc.split('-').reverse().join('/')}</strong></td>
-                        <td>${g.info}</td>
-                        <td>${g.cat}</td>
-                        <td>R$ ${Number(g.valor).toFixed(2)}</td>
-                        <td>
-                            <button onclick="apagar('${doc.id}')" style="background:none; border:none; color:#e74c3c; cursor:pointer;">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
-            corpo.innerHTML = html;
-        })
-        .catch((error) => {
-            console.error("Erro ao listar:", error);
-            // Se cair aqui, o link do índice aparecerá no console do F12
+    try {
+        // BUSCA 1: Contas do Mês Atual (Independente de estarem pagas ou não)
+        const snapMes = await db.collection("gastos")
+            .where("uid", "==", user.uid)
+            .where("mes", "==", m)
+            .where("ano", "==", a)
+            .get();
+
+        // BUSCA 2: Contas ATRASADAS (De meses passados que não foram pagas)
+        const snapAtrasadas = await db.collection("gastos")
+            .where("uid", "==", user.uid)
+            .where("pago", "==", false)
+            .where("dataVenc", "<", hoje)
+            .get();
+
+        const corpo = document.getElementById('tabela-corpo');
+        corpo.innerHTML = '';
+
+        // Criar um Map para evitar duplicados (caso uma conta atrasada seja do mês atual)
+        const todosOsGastos = new Map();
+
+        // Adiciona atrasadas primeiro para dar destaque
+        snapAtrasadas.forEach(doc => todosOsGastos.set(doc.id, { id: doc.id, ...doc.data(), atrasada: true }));
+        
+        // Adiciona as do mês
+        snapMes.forEach(doc => {
+            if(!todosOsGastos.has(doc.id)) {
+                todosOsGastos.set(doc.id, { id: doc.id, ...doc.data(), atrasada: false });
+            }
         });
+
+        // Ordenar por data
+        const listaFinal = Array.from(todosOsGastos.values()).sort((a, b) => a.dataVenc.localeCompare(b.dataVenc));
+
+        listaFinal.forEach((g) => {
+            const ehAtrasada = g.atrasada && !g.pago;
+            corpo.innerHTML += `
+                <tr class="${g.pago ? 'riscado' : ''}" style="${ehAtrasada ? 'background-color: #fff5f5;' : ''}">
+                    <td>
+                        <button onclick="alternarPago('${g.id}', ${g.pago})" class="btn-pago ${g.pago ? 'pago-true' : 'pago-false'}">
+                            ${g.pago ? '✅ Pago' : (ehAtrasada ? '⚠️ ATRASADA' : '⏳ Pagar')}
+                        </button>
+                    </td>
+                    <td style="${ehAtrasada ? 'color: #e74c3c; font-weight: bold;' : ''}">
+                        ${g.dataVenc.split('-').reverse().join('/')}
+                    </td>
+                    <td>${g.info}</td>
+                    <td>${g.cat}</td>
+                    <td>R$ ${g.valor.toFixed(2)}</td>
+                    <td>
+                        <button onclick="apagar('${g.id}')" style="background:none; border:none; color:#e74c3c; cursor:pointer;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+    } catch (error) {
+        console.error("Erro ao listar:", error);
+    }
 }
 
         function alternarPago(id, statusAtual) {
