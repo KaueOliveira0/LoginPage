@@ -181,57 +181,69 @@ auth.onAuthStateChanged((user) => {
     const a = dataFiltro.getFullYear();
     document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-    const hoje = new Date().toISOString().split('T')[0]; // Data de hoje no formato YYYY-MM-DD
+    // Pegamos o primeiro momento do dia de hoje para comparar
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const hojeISO = hoje.toISOString().split('T')[0];
 
     try {
-        // BUSCA 1: Contas do Mês Atual (Independente de estarem pagas ou não)
+        // BUSCA 1: Contas do Mês Selecionado no Filtro
         const snapMes = await db.collection("gastos")
             .where("uid", "==", user.uid)
             .where("mes", "==", m)
             .where("ano", "==", a)
             .get();
 
-        // BUSCA 2: Contas ATRASADAS (De meses passados que não foram pagas)
+        // BUSCA 2: TODAS as contas não pagas que venceram ANTES de hoje
+        // IMPORTANTE: Esta busca exige um índice composto no Firebase!
         const snapAtrasadas = await db.collection("gastos")
             .where("uid", "==", user.uid)
             .where("pago", "==", false)
-            .where("dataVenc", "<", hoje)
+            .where("dataVenc", "<", hojeISO)
             .get();
 
         const corpo = document.getElementById('tabela-corpo');
         corpo.innerHTML = '';
 
-        // Criar um Map para evitar duplicados (caso uma conta atrasada seja do mês atual)
-        const todosOsGastos = new Map();
+        // Usamos um Map para juntar os resultados sem duplicar
+        const todosGastos = new Map();
 
-        // Adiciona atrasadas primeiro para dar destaque
-        snapAtrasadas.forEach(doc => todosOsGastos.set(doc.id, { id: doc.id, ...doc.data(), atrasada: true }));
-        
-        // Adiciona as do mês
+        // Adiciona as atrasadas primeiro
+        snapAtrasadas.forEach(doc => {
+            todosGastos.set(doc.id, { id: doc.id, ...doc.data(), status: 'atrasado' });
+        });
+
+        // Adiciona as do mês atual (se já estiver no map como atrasada, ela mantém o status de atrasada)
         snapMes.forEach(doc => {
-            if(!todosOsGastos.has(doc.id)) {
-                todosOsGastos.set(doc.id, { id: doc.id, ...doc.data(), atrasada: false });
+            if (!todosGastos.has(doc.id)) {
+                todosGastos.set(doc.id, { id: doc.id, ...doc.data(), status: 'no-mes' });
             }
         });
 
-        // Ordenar por data
-        const listaFinal = Array.from(todosOsGastos.values()).sort((a, b) => a.dataVenc.localeCompare(b.dataVenc));
+        // Converte para array e ordena por data de vencimento
+        const listaFinal = Array.from(todosGastos.values()).sort((a, b) => a.dataVenc.localeCompare(b.dataVenc));
+
+        if (listaFinal.length === 0) {
+            corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum registro encontrado.</td></tr>';
+            return;
+        }
 
         listaFinal.forEach((g) => {
-            const ehAtrasada = g.atrasada && !g.pago;
+            const ehAtrasado = g.pago === false && g.dataVenc < hojeISO;
+            
             corpo.innerHTML += `
-                <tr class="${g.pago ? 'riscado' : ''}" style="${ehAtrasada ? 'background-color: #fff5f5;' : ''}">
+                <tr class="${g.pago ? 'riscado' : ''}" style="${ehAtrasado ? 'background: #fff0f0;' : ''}">
                     <td>
                         <button onclick="alternarPago('${g.id}', ${g.pago})" class="btn-pago ${g.pago ? 'pago-true' : 'pago-false'}">
-                            ${g.pago ? '✅ Pago' : (ehAtrasada ? '⚠️ ATRASADA' : '⏳ Pagar')}
+                            ${g.pago ? '✅ Pago' : (ehAtrasado ? '⚠️ ATRASADO' : '⏳ Pagar')}
                         </button>
                     </td>
-                    <td style="${ehAtrasada ? 'color: #e74c3c; font-weight: bold;' : ''}">
+                    <td style="${ehAtrasado ? 'color: red; font-weight: bold;' : ''}">
                         ${g.dataVenc.split('-').reverse().join('/')}
                     </td>
                     <td>${g.info}</td>
                     <td>${g.cat}</td>
-                    <td>R$ ${g.valor.toFixed(2)}</td>
+                    <td>R$ ${Number(g.valor).toFixed(2)}</td>
                     <td>
                         <button onclick="apagar('${g.id}')" style="background:none; border:none; color:#e74c3c; cursor:pointer;">
                             <i class="fa-solid fa-trash"></i>
@@ -242,7 +254,11 @@ auth.onAuthStateChanged((user) => {
         });
 
     } catch (error) {
-        console.error("Erro ao listar:", error);
+        console.error("Erro detalhado ao listar:", error);
+        // Se cair aqui, verifique o link no console (F12) para criar o índice
+        if(error.message.includes("index")) {
+            alert("O sistema precisa de um índice para mostrar contas atrasadas. Verifique o console (F12) e clique no link azul.");
+        }
     }
 }
 

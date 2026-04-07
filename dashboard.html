@@ -121,96 +121,104 @@
         let dataFiltro = new Date();
         let meuChart = null;
 
-        // Vigia de Login Inteligente
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log("Usuário autenticado:", user.email);
-        
-        // Aqui você chama as funções específicas de cada página
-        if (typeof listar === "function") listar(); 
-        if (typeof atualizarDashboard === "function") atualizarDashboard(user.uid);
-        if (typeof carregarRenda === "function") carregarRenda();
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user.email);
+                
+                atualizarDashboard();
 
-        // Busca o nome do usuário para exibir no painel
-        db.collection("usuarios").doc(user.uid).get().then((doc) => {
-            const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
-            const campoNome = document.getElementById('user-name');
-            if (campoNome) campoNome.innerText = nomeExibicao;
+                db.collection("usuarios").doc(user.uid).get().then((doc) => {
+                    const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
+                    const campoNome = document.getElementById('user-name');
+                    if (campoNome) campoNome.innerText = nomeExibicao;
+                });
+
+            } else {
+                window.location.href = "index.html";
+            }
         });
-
-    } else {
-        // Se o Firebase confirmou que REALMENTE não há usuário
-        console.warn("Nenhum usuário logado. Redirecionando...");
-        window.location.href = "index.html";
-    }
-});
 
         async function atualizarDashboard() {
             const user = auth.currentUser;
+            if (!user) return;
+
             const m = dataFiltro.getMonth();
             const a = dataFiltro.getFullYear();
             const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
             
             document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-            // 1. BUSCAR RENDA
-            const configDoc = await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).get();
-            const renda = configDoc.exists ? configDoc.data().renda : 0;
-            document.getElementById('renda-display').innerText = `R$ ${renda.toFixed(2)}`;
+            try {
+                // 1. BUSCAR RENDA
+                const configDoc = await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).get();
+                const renda = configDoc.exists ? configDoc.data().renda : 0;
+                document.getElementById('renda-display').innerText = `R$ ${renda.toFixed(2)}`;
 
-            // 2. BUSCAR GASTOS
-            const snapshot = await db.collection("gastos")
-                .where("uid", "==", user.uid)
-                .where("mes", "==", m)
-                .where("ano", "==", a)
-                .get();
+                // 2. BUSCAR GASTOS DO MÊS SELECIONADO (Filtro normal)
+                const snapshot = await db.collection("gastos")
+                    .where("uid", "==", user.uid)
+                    .where("mes", "==", m)
+                    .where("ano", "==", a)
+                    .get();
 
-            let totalGeral = 0;
-            let totalPendente = 0;
-            const categorias = { fixo: 0, comida: 0, eletro: 0, lazer: 0, outros: 0 };
-            let atrasadosHtml = '';
-            const hoje = new Date().toISOString().split('T')[0];
+                // 3. BUSCAR TODOS OS ATRASADOS (Global - Independente do mês no filtro)
+                const hojeISO = new Date().toISOString().split('T')[0];
+                const snapAtrasados = await db.collection("gastos")
+                    .where("uid", "==", user.uid)
+                    .where("pago", "==", false)
+                    .where("dataVenc", "<", hojeISO)
+                    .get();
 
-            snapshot.forEach((doc) => {
-                const g = doc.data();
-                totalGeral += g.valor;
-                
-                if (!g.pago) totalPendente += g.valor;
+                let totalGeral = 0;
+                let totalPendente = 0;
+                const categorias = { fixo: 0, comida: 0, eletro: 0, lazer: 0, outros: 0 };
 
-                if (categorias[g.cat] !== undefined) {
-                    categorias[g.cat] += g.valor;
-                }
+                // Processa gastos do mês para cartões e gráfico
+                snapshot.forEach((doc) => {
+                    const g = doc.data();
+                    totalGeral += g.valor;
+                    if (!g.pago) totalPendente += g.valor;
+                    if (categorias[g.cat] !== undefined) {
+                        categorias[g.cat] += g.valor;
+                    }
+                });
 
-                if (!g.pago && g.dataVenc < hoje) {
+                // Processa a lista de faturas atrasadas para o box da direita
+                let atrasadosHtml = '';
+                snapAtrasados.forEach((doc) => {
+                    const g = doc.data();
                     atrasadosHtml += `
                         <div class="item-vencido">
                             <div><strong>${g.info}</strong><br><small>Vencimento: ${g.dataVenc.split('-').reverse().join('/')}</small></div>
-                            <div style="color:var(--danger); font-weight:bold;">R$ ${g.valor.toFixed(2)}</div>
+                            <div style="color:var(--danger); font-weight:bold;">R$ ${Number(g.valor).toFixed(2)}</div>
                         </div>`;
-                }
-            });
+                });
 
-            // Atualiza os Cards com IDs corretos
-            document.getElementById('total-mes').innerText = `R$ ${totalGeral.toFixed(2)}`;
-            document.getElementById('total-pendente').innerText = `R$ ${totalPendente.toFixed(2)}`;
-            document.getElementById('saldo-livre').innerText = `R$ ${(renda - totalGeral).toFixed(2)}`;
-            document.getElementById('lista-vencidos').innerHTML = atrasadosHtml || '<p style="color:var(--success); text-align:center; margin-top:20px;">Tudo em dia!</p>';
+                // Atualiza a Interface
+                document.getElementById('total-mes').innerText = `R$ ${totalGeral.toFixed(2)}`;
+                document.getElementById('total-pendente').innerText = `R$ ${totalPendente.toFixed(2)}`;
+                document.getElementById('saldo-livre').innerText = `R$ ${(renda - totalGeral).toFixed(2)}`;
+                document.getElementById('lista-vencidos').innerHTML = atrasadosHtml || '<p style="color:var(--success); text-align:center; margin-top:20px;">Tudo em dia!</p>';
 
-            // 3. ATUALIZAR GRÁFICO
-            const ctx = document.getElementById('meuGrafico').getContext('2d');
-            if (meuChart) meuChart.destroy();
-            
-            meuChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Fixo', 'Comida', 'Eletro', 'Lazer', 'Outros'],
-                    datasets: [{
-                        data: [categorias.fixo, categorias.comida, categorias.eletro, categorias.lazer, categorias.outros],
-                        backgroundColor: ['#512da8', '#2ecc71', '#ff9f43', '#ee5253', '#feca57']
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
+                // 4. ATUALIZAR GRÁFICO
+                const ctx = document.getElementById('meuGrafico').getContext('2d');
+                if (meuChart) meuChart.destroy();
+                
+                meuChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Fixo', 'Comida', 'Eletro', 'Lazer', 'Outros'],
+                        datasets: [{
+                            data: [categorias.fixo, categorias.comida, categorias.eletro, categorias.lazer, categorias.outros],
+                            backgroundColor: ['#512da8', '#2ecc71', '#ff9f43', '#ee5253', '#feca57']
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+
+            } catch (error) {
+                console.error("Erro ao atualizar dashboard:", error);
+            }
         }
 
         function mudarMes(direcao) {
