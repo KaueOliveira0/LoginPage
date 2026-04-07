@@ -73,46 +73,22 @@ forgotPassLink.addEventListener('click', (e) => {
         });
 });
 
-// --- FUNÇÃO LOGIN COM GOOGLE ---
-const googleBtn = document.getElementById('google-login');
+// Seleciona todos os botões que têm a classe btn-google ou btn-github
+const googleButtons = document.querySelectorAll('.btn-google');
+const githubButtons = document.querySelectorAll('.btn-github');
 
-googleBtn.addEventListener('click', (e) => {
+// Função para o Login/Cadastro com Google
+const executarLoginGoogle = (e) => {
     e.preventDefault();
     const provider = new firebase.auth.GoogleAuthProvider();
-
+    
     auth.signInWithPopup(provider)
         .then((result) => {
             const user = result.user;
-            
-            // Verifica se o usuário já existe no Firestore, se não, cria o perfil dele
+            // O merge: true é fundamental: se a conta for nova, ele cria. 
+            // Se já existir, ele só faz o login sem apagar nada.
             return db.collection("usuarios").doc(user.uid).set({
                 nome: user.displayName,
-                email: user.email,
-                criadoEm: new Date()
-            }, { merge: true }); // O merge evita apagar dados se o usuário já existir
-        })
-        .then(() => {
-            window.location.href = "dashboard.html";
-        })
-        .catch((error) => {
-            console.error("Erro no Google Login:", error);
-            if(error.code !== 'auth/popup-closed-by-user') {
-                alert("Erro ao logar com Google: " + error.message);
-            }
-        });
-});
-
-const githubBtn = document.getElementById('github-login');
-
-githubBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const provider = new firebase.auth.GithubAuthProvider();
-
-    auth.signInWithPopup(provider)
-        .then((result) => {
-            const user = result.user;
-            return db.collection("usuarios").doc(user.uid).set({
-                nome: user.displayName || "Usuário GitHub",
                 email: user.email,
                 criadoEm: new Date()
             }, { merge: true });
@@ -120,8 +96,29 @@ githubBtn.addEventListener('click', (e) => {
         .then(() => {
             window.location.href = "dashboard.html";
         })
-        .catch((error) => {
-            console.error("Erro no GitHub Login:", error);
-            alert("Erro ao logar com GitHub: " + error.message);
-        });
+        .catch(error => alert("Erro Google: " + error.message));
+};
+
+// Adiciona o evento de clique em CADA botão encontrado na página
+googleButtons.forEach(botao => {
+    botao.addEventListener('click', executarLoginGoogle);
+});
+
+// Faça o mesmo para o GitHub se já tiver configurado as chaves
+githubButtons.forEach(botao => {
+    botao.addEventListener('click', (e) => {
+        e.preventDefault();
+        const provider = new firebase.auth.GithubAuthProvider();
+        auth.signInWithPopup(provider)
+            .then((result) => {
+                const user = result.user;
+                return db.collection("usuarios").doc(user.uid).set({
+                    nome: user.displayName || "Usuário GitHub",
+                    email: user.email,
+                    criadoEm: new Date()
+                }, { merge: true });
+            })
+            .then(() => window.location.href = "dashboard.html")
+            .catch(error => alert("Erro GitHub: " + error.message));
+    });
 });
