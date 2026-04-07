@@ -72,12 +72,28 @@
 
         // VIGIA DE LOGIN (Isso impede de voltar para o login sozinho)
         auth.onAuthStateChanged((user) => {
-            if (user) {
-                carregarRenda();
-            } else {
-                window.location.href = "index.html";
+    if (user) {
+        console.log("Usuário confirmado:", user.email);
+        // Só chama as funções de carregar dados DEPOIS da confirmação
+        if (typeof listar === "function") listar(); 
+        if (typeof carregarRenda === "function") carregarRenda();
+        
+        // Se você tiver um campo de nome no topo da página:
+        db.collection("usuarios").doc(user.uid).get().then((doc) => {
+            if (doc.exists && document.getElementById('user-name')) {
+                document.getElementById('user-name').innerText = doc.data().nome;
             }
         });
+    } else {
+        // Pequeno atraso para evitar falsos negativos de carregamento
+        setTimeout(() => {
+            if (!auth.currentUser) {
+                console.log("Nenhum usuário detectado, redirecionando...");
+                window.location.href = "index.html";
+            }
+        }, 1000); 
+    }
+});
 
         async function carregarRenda() {
             const user = auth.currentUser;
