@@ -1,42 +1,76 @@
-# 🔐 Login Page
+# 📊 Dashboard Financeiro Personalizado
 
-Este é um projeto de uma página de login interativa e responsiva, desenvolvida com foco em UI/UX e transições suaves entre as telas de cadastro e login.
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
-## 🚀 Tecnologias Utilizadas
-
-O projeto foi construído utilizando as tecnologias fundamentais do desenvolvimento web:
-
-* **HTML5**: Estruturação semântica da página.
-* **CSS3**: Estilização avançada com Flexbox, animações (`keyframes`) e transições.
-* **JavaScript (Vanilla)**: Manipulação do DOM para alternância de estados do formulário.
-* **Font Awesome**: Biblioteca de ícones para redes sociais.
-* **Google Fonts**: Utilização da fonte 'Montserrat' para uma tipografia moderna.
-
-## 📋 Funcionalidades
-
-* **Slide Toggle**: Transição animada entre os formulários de "Entrar" e "Criar Conta".
-* **Design Responsivo**: Ajuste visual para diferentes tamanhos de tela.
-* **Interface Limpa**: Foco na experiência do usuário com botões e inputs estilizados.
-* **Integração Social**: Espaço dedicado para login via Google, Facebook, GitHub e LinkedIn.
-
-## 🔧 Como rodar o projeto
-
-1.  Certifique-se de ter o **VS Code** instalado.
-2.  Instale a extensão **Live Server**.
-3.  Clone este repositório:
-    ```bash
-    git clone [https://github.com/KaueOliveira0/LoginPage.git]
-    ```
-4.  Abra a pasta no VS Code.
-5.  Clique com o botão direito no arquivo `index.html` e selecione **"Open with Live Server"**.
-
-## 👨‍💻 Avisos
-
-1. Icons ainda não funcionado.
-
-## 👤 Autor
-
-**Kauê de Oliveira** Estudante de Análise e Desenvolvimento de Sistemas - 2/5 Semestres na Uniavan.
+Este é um projeto de **Gestão Financeira Pessoal** focado em praticidade e aprendizado técnico. O sistema permite o controle de rendas e gastos mensais, utilizando uma arquitetura moderna baseada em nuvem para que os dados possam ser acessados tanto pelo computador quanto pelo celular de forma sincronizada.
 
 ---
-Projetado para fins de estudo em Desenvolvimento Web.
+
+## 🌟 Diferenciais do Projeto
+
+O grande salto deste projeto foi a transição do armazenamento local (`localStorage`) para o **Google Firebase**. 
+
+* **Sincronização Cloud**: Acesse seus dados de qualquer lugar.
+* **Segurança**: Autenticação real via Firebase Auth (E-mail e Senha).
+* **Persistência**: Seus dados não são perdidos ao limpar o cache do navegador.
+* **Interface Moderna**: Sistema de login com transições suaves e dashboard intuitivo.
+
+---
+
+## 🛠️ Tecnologias e Ferramentas
+
+* **Frontend**: HTML5 Semântico e CSS3 (com animações de Keyframes).
+* **Lógica**: JavaScript Vanilla (ES6+).
+* **Backend (BaaS)**: 
+    * **Authentication**: Controle de acesso de usuários.
+    * **Firestore Database**: Banco de Dados NoSQL para salvar transações em tempo real.
+* **Hospedagem**: Sugerido Netlify ou Firebase Hosting.
+
+---
+
+## 📁 Estrutura de Arquivos
+
+```text
+├── index.html          # Tela de entrada (Login e Registro)
+├── dashboard.html      # Resumo financeiro principal
+├── financeiro.html     # Lógica detalhada de entradas/saídas
+├── configuracoes.html  # Definição de metas e perfil
+├── style.css           # Identidade visual e responsividade
+└── script.js           # Integração com Firebase e lógica de navegação
+```
+
+
+## 🚀 Como Configurar
+Clonar o projeto:
+
+```Bash 
+git clone [https://github.com/KaueOliveira0/LoginPage.git](https://github.com/KaueOliveira0/LoginPage.git)
+```
+Configurar o Firebase:
+
+* Crie um projeto no Firebase Console.
+
+*  Ative o método E-mail/Senha em Authentication.
+
+* Crie um banco Firestore em modo de teste.
+
+* No index.html, substitua as constantes no firebaseConfig pelas chaves do seu projeto.
+
+Execução:
+
+No VS Code, clique com o botão direito no index.html e selecione Open with Live Server.
+
+## 📈 Roadmap / Próximas Implementações
+[ ] Implementação de gráficos de pizza para categorias de gastos.
+
+[ ] Sistema de notificações para contas a vencer.
+
+[ ] Modo Escuro (Dark Mode).
+
+[ ] Conversão para PWA (App instalável no Android/iOS).
+
+## 👤 Autor
+Kaue Desenvolvedor focado em soluções práticas e aprendizado constante de novas tecnologias.
