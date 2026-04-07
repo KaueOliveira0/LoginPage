@@ -1,3 +1,60 @@
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+function adicionarGasto() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const desc = document.getElementById('desc').value;
+    const valorTotal = parseFloat(document.getElementById('valor').value);
+    const numParcelas = parseInt(document.getElementById('parcelas').value) || 1;
+    const categoria = document.getElementById('categoria').value; // Ex: Lazer, Fixo
+
+    if (!desc || !valorTotal) return alert("Preencha tudo!");
+
+    const valorParcela = valorTotal / numParcelas;
+
+    for (let i = 0; i < numParcelas; i++) {
+        let dataParcela = new Date();
+        dataParcela.setMonth(dataParcela.getMonth() + i);
+        
+        db.collection("gastos").add({
+            uid: user.uid,
+            descricao: `${desc} (${i + 1}/${numParcelas})`,
+            valor: valorParcela,
+            mes: dataParcela.getMonth(),
+            ano: dataParcela.getFullYear(),
+            categoria: categoria,
+            pago: false,
+            dataCriacao: new Date()
+        });
+    }
+    alert("Gastos registados na nuvem!");
+    renderizar(); 
+}
+
+function renderizar() {
+    const user = auth.currentUser;
+    const mes = dataVisualizacao.getMonth();
+    const ano = dataVisualizacao.getFullYear();
+
+    db.collection("gastos")
+      .where("uid", "==", user.uid)
+      .where("mes", "==", mes)
+      .where("ano", "==", ano)
+      .get().then((querySnapshot) => {
+          let html = '';
+          querySnapshot.forEach((doc) => {
+              const g = doc.data();
+              html += `<tr>
+                  <td>${g.descricao}</td>
+                  <td>R$ ${g.valor.toFixed(2)}</td>
+                  <td><button onclick="removerGastoCloud('${doc.id}')">🗑️</button></td>
+              </tr>`;
+          });
+          document.getElementById('lista-gastos').innerHTML = html;
+      });
+}
 
 
 let dataVisualizacao = new Date(); // Mês que o usuário está vendo
