@@ -73,6 +73,7 @@ forgotPassLink.addEventListener('click', (e) => {
         });
 });
 
+
 // Seleciona todos os botões que têm a classe btn-google ou btn-github
 const googleButtons = document.querySelectorAll('.btn-google');
 const githubButtons = document.querySelectorAll('.btn-github');
