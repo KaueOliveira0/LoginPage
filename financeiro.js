@@ -44,20 +44,16 @@ async function adicionarGasto() {
     // --- MUDANÇA AQUI: Salvando na subcoleção do usuário ---
     const usuarioRef = db.collection("usuarios").doc(user.uid).collection("gastos");
 
-    for (let i = 0; i < numParcelas; i++) {
-        let dataParcela = new Date(dataVisualizacao);
-        dataParcela.setMonth(dataParcela.getMonth() + i);
-        
         await usuarioRef.add({
-            descricao: numParcelas > 1 ? `${desc} (${i + 1}/${numParcelas})` : desc,
+            descricao: desc,
             valor: valorParcela,
             categoria: categoria,
             mes: dataParcela.getMonth(),
             ano: dataParcela.getFullYear(),
             pago: false,
             dataCriacao: firebase.firestore.FieldValue.serverTimestamp()
+            // O campo 'uid' dentro do objeto agora é opcional, pois o ID já está no nome da pasta pai
         });
-    }
 
     alert("Gasto(s) adicionado(s) com sucesso!");
     document.getElementById('desc').value = "";
@@ -78,9 +74,9 @@ function renderizar() {
     
     // --- MUDANÇA AQUI: Buscando da subcoleção do usuário ---
     db.collection("usuarios").doc(user.uid).collection("gastos")
-        .where("mes", "==", mesAtual)
-        .where("ano", "==", anoAtual)
-        .get()
+    .where("mes", "==", mesAtual)
+    .where("ano", "==", anoAtual)
+    .get()
         .then((querySnapshot) => {
             let html = '';
             let total = 0;
@@ -107,9 +103,9 @@ function renderizar() {
 function removerGasto(id) {
     const user = auth.currentUser;
     if (confirm("Deseja excluir este gasto?")) {
-        // --- MUDANÇA AQUI: Removendo da subcoleção correta ---
-        db.collection("usuarios").doc(user.uid).collection("gastos").doc(id).delete().then(() => {
-            renderizar();
-        });
+        db.collection("usuarios").doc(user.uid).collection("gastos").doc(id).delete()
+            .then(() => {
+                renderizar();
+            });
     }
 }
