@@ -8,12 +8,10 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         console.log("Usuário autenticado:", user.email);
         
-        // Aqui você chama as funções específicas de cada página
-        if (typeof listar === "function") listar(); 
-        if (typeof atualizarDashboard === "function") atualizarDashboard(user.uid);
+        if (typeof renderizar === "function") renderizar(); 
+        if (typeof atualizarDashboard === "function") atualizarDashboard();
         if (typeof carregarRenda === "function") carregarRenda();
 
-        // Busca o nome do usuário para exibir no painel
         db.collection("usuarios").doc(user.uid).get().then((doc) => {
             const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
             const campoNome = document.getElementById('user-name');
@@ -21,8 +19,6 @@ auth.onAuthStateChanged((user) => {
         });
 
     } else {
-        // Se o Firebase confirmou que REALMENTE não há usuário
-        console.warn("Nenhum usuário logado. Redirecionando...");
         window.location.href = "index.html";
     }
 });
@@ -45,13 +41,14 @@ async function adicionarGasto() {
 
     const valorParcela = valorTotal / numParcelas;
 
-    // Salva cada parcela no Firestore
+    // --- MUDANÇA AQUI: Salvando na subcoleção do usuário ---
+    const usuarioRef = db.collection("usuarios").doc(user.uid).collection("gastos");
+
     for (let i = 0; i < numParcelas; i++) {
         let dataParcela = new Date(dataVisualizacao);
         dataParcela.setMonth(dataParcela.getMonth() + i);
         
-        await db.collection("gastos").add({
-            uid: user.uid,
+        await usuarioRef.add({
             descricao: numParcelas > 1 ? `${desc} (${i + 1}/${numParcelas})` : desc,
             valor: valorParcela,
             categoria: categoria,
@@ -63,7 +60,6 @@ async function adicionarGasto() {
     }
 
     alert("Gasto(s) adicionado(s) com sucesso!");
-    // Limpa os campos
     document.getElementById('desc').value = "";
     document.getElementById('valor').value = "";
     renderizar();
@@ -78,12 +74,10 @@ function renderizar() {
     const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     
     document.getElementById('mes-extenso').innerText = `${meses[mesAtual]} ${anoAtual}`;
-
     const lista = document.getElementById('lista-gastos');
     
-    // Busca no Firestore filtrando por Usuário, Mês e Ano
-    db.collection("gastos")
-        .where("uid", "==", user.uid)
+    // --- MUDANÇA AQUI: Buscando da subcoleção do usuário ---
+    db.collection("usuarios").doc(user.uid).collection("gastos")
         .where("mes", "==", mesAtual)
         .where("ano", "==", anoAtual)
         .get()
@@ -104,14 +98,17 @@ function renderizar() {
             });
 
             lista.innerHTML = html;
-            document.getElementById('total-gastos').innerText = `R$ ${total.toFixed(2)}`;
+            const campoTotal = document.getElementById('total-gastos');
+            if (campoTotal) campoTotal.innerText = `R$ ${total.toFixed(2)}`;
         })
         .catch((error) => console.error("Erro ao carregar gastos:", error));
 }
 
 function removerGasto(id) {
+    const user = auth.currentUser;
     if (confirm("Deseja excluir este gasto?")) {
-        db.collection("gastos").doc(id).delete().then(() => {
+        // --- MUDANÇA AQUI: Removendo da subcoleção correta ---
+        db.collection("usuarios").doc(user.uid).collection("gastos").doc(id).delete().then(() => {
             renderizar();
         });
     }
