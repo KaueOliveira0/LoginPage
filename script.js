@@ -74,20 +74,20 @@ forgotPassLink.addEventListener('click', (e) => {
 });
 
 
-// Seleciona todos os botões que têm a classe btn-google ou btn-github
+// 1. Seleciona TODOS os botões que têm as classes abaixo
 const googleButtons = document.querySelectorAll('.btn-google');
 const githubButtons = document.querySelectorAll('.btn-github');
 
-// Função para o Login/Cadastro com Google
-const executarLoginGoogle = (e) => {
+// 2. Função de Autenticação (serve para Login e Registro)
+const iniciarAuthGoogle = (e) => {
     e.preventDefault();
     const provider = new firebase.auth.GoogleAuthProvider();
     
     auth.signInWithPopup(provider)
         .then((result) => {
             const user = result.user;
-            // O merge: true é fundamental: se a conta for nova, ele cria. 
-            // Se já existir, ele só faz o login sem apagar nada.
+            // O merge: true é vital: ele cria a conta se não existir 
+            // e apenas loga se ela já existir, sem apagar dados.
             return db.collection("usuarios").doc(user.uid).set({
                 nome: user.displayName,
                 email: user.email,
@@ -97,17 +97,21 @@ const executarLoginGoogle = (e) => {
         .then(() => {
             window.location.href = "dashboard.html";
         })
-        .catch(error => alert("Erro Google: " + error.message));
+        .catch(error => {
+            if(error.code !== 'auth/popup-closed-by-user') {
+                alert("Erro Google: " + error.message);
+            }
+        });
 };
 
-// Adiciona o evento de clique em CADA botão encontrado na página
-googleButtons.forEach(botao => {
-    botao.addEventListener('click', executarLoginGoogle);
+// 3. Aplica o evento de clique em CADA botão do Google na tela
+googleButtons.forEach(button => {
+    button.addEventListener('click', iniciarAuthGoogle);
 });
 
-// Faça o mesmo para o GitHub se já tiver configurado as chaves
-githubButtons.forEach(botao => {
-    botao.addEventListener('click', (e) => {
+// 4. Aplica o mesmo para o GitHub (se as chaves já estiverem no Firebase)
+githubButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
         e.preventDefault();
         const provider = new firebase.auth.GithubAuthProvider();
         auth.signInWithPopup(provider)
