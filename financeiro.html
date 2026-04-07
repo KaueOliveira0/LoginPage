@@ -111,32 +111,26 @@
         let dataFiltro = new Date();
         const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
-        // Vigia de Login Inteligente
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log("Usuário autenticado:", user.email);
-        
-        // Aqui você chama as funções específicas de cada página
-        if (typeof listar === "function") listar(); 
-        if (typeof atualizarDashboard === "function") atualizarDashboard(user.uid);
-        if (typeof carregarRenda === "function") carregarRenda();
-
-        // Busca o nome do usuário para exibir no painel
-        db.collection("usuarios").doc(user.uid).get().then((doc) => {
-            const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
-            const campoNome = document.getElementById('user-name');
-            if (campoNome) campoNome.innerText = nomeExibicao;
+        // Observador de Autenticação
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user.email);
+                listar(); 
+                
+                db.collection("usuarios").doc(user.uid).get().then((doc) => {
+                    const nomeExibicao = doc.exists ? doc.data().nome : "Usuário";
+                    const campoNome = document.getElementById('user-name');
+                    if (campoNome) campoNome.innerText = nomeExibicao;
+                });
+            } else {
+                window.location.href = "index.html";
+            }
         });
-
-    } else {
-        // Se o Firebase confirmou que REALMENTE não há usuário
-        console.warn("Nenhum usuário logado. Redirecionando...");
-        window.location.href = "index.html";
-    }
-});
 
         async function salvar() {
             const user = auth.currentUser;
+            if (!user) return;
+
             const desc = document.getElementById('desc').value;
             const cat = document.getElementById('cat').value;
             const valorTotal = parseFloat(document.getElementById('valor').value);
@@ -149,12 +143,14 @@ auth.onAuthStateChanged((user) => {
             btn.disabled = true;
             btn.innerText = "Salvando...";
 
+            // REFERÊNCIA PARA A SUBCOLEÇÃO: usuarios > ID > gastos
+            const gastosRef = db.collection("usuarios").doc(user.uid).collection("gastos");
+
             for(let i=0; i<parc; i++) {
                 let d = new Date(vencInput + 'T00:00:00');
                 d.setMonth(d.getMonth() + i);
 
-                await db.collection("gastos").add({
-                    uid: user.uid,
+                await gastosRef.add({
                     info: parc > 1 ? `${desc} (${i+1}/${parc})` : desc,
                     cat: cat,
                     valor: valorTotal / parc,
@@ -173,102 +169,97 @@ auth.onAuthStateChanged((user) => {
             listar();
         }
 
-       async function listar() {
-    const user = auth.currentUser;
-    if (!user) return;
+        async function listar() {
+            const user = auth.currentUser;
+            if (!user) return;
 
-    const m = dataFiltro.getMonth();
-    const a = dataFiltro.getFullYear();
-    document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
+            const m = dataFiltro.getMonth();
+            const a = dataFiltro.getFullYear();
+            document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-    // Pegamos o primeiro momento do dia de hoje para comparar
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-    const hojeISO = hoje.toISOString().split('T')[0];
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            const hojeISO = hoje.toISOString().split('T')[0];
 
-    try {
-        // BUSCA 1: Contas do Mês Selecionado no Filtro
-        const snapMes = await db.collection("gastos")
-            .where("uid", "==", user.uid)
-            .where("mes", "==", m)
-            .where("ano", "==", a)
-            .get();
+            // REFERÊNCIA PARA A SUBCOLEÇÃO DO USUÁRIO
+            const gastosRef = db.collection("usuarios").doc(user.uid).collection("gastos");
 
-        // BUSCA 2: TODAS as contas não pagas que venceram ANTES de hoje
-        // IMPORTANTE: Esta busca exige um índice composto no Firebase!
-        const snapAtrasadas = await db.collection("gastos")
-            .where("uid", "==", user.uid)
-            .where("pago", "==", false)
-            .where("dataVenc", "<", hojeISO)
-            .get();
+            try {
+                // Busca 1: Mes selecionado
+                const snapMes = await gastosRef
+                    .where("mes", "==", m)
+                    .where("ano", "==", a)
+                    .get();
 
-        const corpo = document.getElementById('tabela-corpo');
-        corpo.innerHTML = '';
+                // Busca 2: Atrasados
+                const snapAtrasadas = await gastosRef
+                    .where("pago", "==", false)
+                    .where("dataVenc", "<", hojeISO)
+                    .get();
 
-        // Usamos um Map para juntar os resultados sem duplicar
-        const todosGastos = new Map();
+                const corpo = document.getElementById('tabela-corpo');
+                corpo.innerHTML = '';
+                const todosGastos = new Map();
 
-        // Adiciona as atrasadas primeiro
-        snapAtrasadas.forEach(doc => {
-            todosGastos.set(doc.id, { id: doc.id, ...doc.data(), status: 'atrasado' });
-        });
+                snapAtrasadas.forEach(doc => {
+                    todosGastos.set(doc.id, { id: doc.id, ...doc.data() });
+                });
 
-        // Adiciona as do mês atual (se já estiver no map como atrasada, ela mantém o status de atrasada)
-        snapMes.forEach(doc => {
-            if (!todosGastos.has(doc.id)) {
-                todosGastos.set(doc.id, { id: doc.id, ...doc.data(), status: 'no-mes' });
+                snapMes.forEach(doc => {
+                    if (!todosGastos.has(doc.id)) {
+                        todosGastos.set(doc.id, { id: doc.id, ...doc.data() });
+                    }
+                });
+
+                const listaFinal = Array.from(todosGastos.values()).sort((a, b) => a.dataVenc.localeCompare(b.dataVenc));
+
+                if (listaFinal.length === 0) {
+                    corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum registro encontrado.</td></tr>';
+                    return;
+                }
+
+                listaFinal.forEach((g) => {
+                    const ehAtrasado = g.pago === false && g.dataVenc < hojeISO;
+                    corpo.innerHTML += `
+                        <tr class="${g.pago ? 'riscado' : ''}" style="${ehAtrasado ? 'background: #fff0f0;' : ''}">
+                            <td>
+                                <button onclick="alternarPago('${g.id}', ${g.pago})" class="btn-pago ${g.pago ? 'pago-true' : 'pago-false'}">
+                                    ${g.pago ? '✅ Pago' : (ehAtrasado ? '⚠️ ATRASADO' : '⏳ Pagar')}
+                                </button>
+                            </td>
+                            <td style="${ehAtrasado ? 'color: red; font-weight: bold;' : ''}">
+                                ${g.dataVenc.split('-').reverse().join('/')}
+                            </td>
+                            <td>${g.info}</td>
+                            <td>${g.cat}</td>
+                            <td>R$ ${Number(g.valor).toFixed(2)}</td>
+                            <td>
+                                <button onclick="apagar('${g.id}')" style="background:none; border:none; color:#e74c3c; cursor:pointer;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error("Erro ao listar:", error);
+                if(error.message.includes("index")) {
+                    alert("Aguarde a criação do índice no Firebase...");
+                }
             }
-        });
-
-        // Converte para array e ordena por data de vencimento
-        const listaFinal = Array.from(todosGastos.values()).sort((a, b) => a.dataVenc.localeCompare(b.dataVenc));
-
-        if (listaFinal.length === 0) {
-            corpo.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum registro encontrado.</td></tr>';
-            return;
         }
-
-        listaFinal.forEach((g) => {
-            const ehAtrasado = g.pago === false && g.dataVenc < hojeISO;
-            
-            corpo.innerHTML += `
-                <tr class="${g.pago ? 'riscado' : ''}" style="${ehAtrasado ? 'background: #fff0f0;' : ''}">
-                    <td>
-                        <button onclick="alternarPago('${g.id}', ${g.pago})" class="btn-pago ${g.pago ? 'pago-true' : 'pago-false'}">
-                            ${g.pago ? '✅ Pago' : (ehAtrasado ? '⚠️ ATRASADO' : '⏳ Pagar')}
-                        </button>
-                    </td>
-                    <td style="${ehAtrasado ? 'color: red; font-weight: bold;' : ''}">
-                        ${g.dataVenc.split('-').reverse().join('/')}
-                    </td>
-                    <td>${g.info}</td>
-                    <td>${g.cat}</td>
-                    <td>R$ ${Number(g.valor).toFixed(2)}</td>
-                    <td>
-                        <button onclick="apagar('${g.id}')" style="background:none; border:none; color:#e74c3c; cursor:pointer;">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-        });
-
-    } catch (error) {
-        console.error("Erro detalhado ao listar:", error);
-        // Se cair aqui, verifique o link no console (F12) para criar o índice
-        if(error.message.includes("index")) {
-            alert("O sistema precisa de um índice para mostrar contas atrasadas. Verifique o console (F12) e clique no link azul.");
-        }
-    }
-}
 
         function alternarPago(id, statusAtual) {
-            db.collection("gastos").doc(id).update({ pago: !statusAtual }).then(() => listar());
+            const user = auth.currentUser;
+            db.collection("usuarios").doc(user.uid).collection("gastos").doc(id).update({ 
+                pago: !statusAtual 
+            }).then(() => listar());
         }
 
         function apagar(id) {
+            const user = auth.currentUser;
             if(confirm("Excluir este registro?")) {
-                db.collection("gastos").doc(id).delete().then(() => listar());
+                db.collection("usuarios").doc(user.uid).collection("gastos").doc(id).delete().then(() => listar());
             }
         }
 
