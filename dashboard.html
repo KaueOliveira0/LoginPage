@@ -12,17 +12,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); display: flex; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
         
-        .sidebar { 
-            width: 260px; 
-            background: var(--primary); 
-            color: white; 
-            height: 100vh; 
-            position: fixed; 
-            padding: 25px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-        }
+        .sidebar { width: 260px; background: var(--primary); color: white; height: 100vh; position: fixed; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
         .sidebar h2 { font-weight: 700; margin-bottom: 30px; text-align: center; }
         .sidebar ul { list-style: none; flex-grow: 1; }
         .sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
@@ -30,22 +20,7 @@
         .sidebar li:hover { background: rgba(255,255,255,0.1); }
         .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
 
-        .btn-sair { 
-            background: rgba(255, 255, 255, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            color: white; 
-            padding: 12px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            width: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px;
-            transition: 0.3s;
-            margin-bottom: 10px;
-        }
+        .btn-sair { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; }
         .btn-sair:hover { background: var(--danger); border-color: var(--danger); }
 
         .main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
@@ -66,8 +41,7 @@
         .vencimentos-box { flex: 1.2; background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); border-top: 5px solid var(--danger); min-height: 400px; }
         
         .item-vencido { background: #fff5f5; border: 1px solid #feb2b2; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .badge-data { background: var(--danger); color: white; padding: 3px 8px; border-radius: 50px; font-size: 11px; font-weight: bold; }
-        canvas { max-height: 300px; }
+        canvas { max-height: 300px; width: 100% !important; }
     </style>
 </head>
 <body>
@@ -106,17 +80,17 @@
             </div>
             <div class="card" style="border-color: #f39c12;">
                 <span><i class="fa-solid fa-clock"></i> Pendente</span>
-                <h2 id="total-pendente" style="color: #f39c12;">R$ 0,00</h2>
+                <h2 id="total-pendente">R$ 0,00</h2>
             </div>
             <div class="card" style="border-color: #3498db;">
                 <span><i class="fa-solid fa-calendar-check"></i> Saldo Livre</span>
-                <h2 id="saldo-livre" style="color: #3498db;">R$ 0,00</h2>
+                <h2 id="saldo-livre">R$ 0,00</h2>
             </div>
         </div>
 
         <div class="content-row">
             <div class="chart-box">
-                <h3>Gastos por Categoria (%)</h3>
+                <h3>Gastos por Categoria</h3>
                 <canvas id="meuGrafico"></canvas>
             </div>
             <div class="vencimentos-box">
@@ -131,7 +105,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
     <script>
-        // 1. Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBiHEK1MMew-1OXVpb1iUsnx249wPD6GYA",
             authDomain: "pagefinanceirokaue.firebaseapp.com",
@@ -141,22 +114,17 @@
             appId: "1:265354403807:web:2953fdf433e32ee3676e6a"
         };
 
-        // 2. Inicialização
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        let dataFiltro = new Date(); 
+        let dataFiltro = new Date();
         let meuChart = null;
 
-        // 3. Monitoramento do Usuário
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // Busca o nome real no Firestore
                 db.collection("usuarios").doc(user.uid).get().then((doc) => {
-                    if (doc.exists) {
-                        document.getElementById('user-name').innerText = doc.data().nome;
-                    }
+                    if (doc.exists) document.getElementById('user-name').innerText = doc.data().nome;
                 });
                 atualizarDashboard();
             } else {
@@ -164,80 +132,72 @@
             }
         });
 
-        // 4. Função Principal do Dashboard
-        function atualizarDashboard() {
+        async function atualizarDashboard() {
             const user = auth.currentUser;
-            if(!user) return;
-
             const m = dataFiltro.getMonth();
             const a = dataFiltro.getFullYear();
             const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+            
             document.getElementById('mes-label').innerText = `${nomesMeses[m]} ${a}`;
 
-            // Busca os gastos no Firestore filtrando pelo usuário logado
-            db.collection("gastos")
-              .where("uid", "==", user.uid)
-              .where("mes", "==", m)
-              .where("ano", "==", a)
-              .get().then((snapshot) => {
-                let total = 0;
-                let pendente = 0;
-                let gastosData = [];
+            // 1. BUSCAR RENDA
+            const configDoc = await db.collection("configuracoes").doc(`${user.uid}_${m}_${a}`).get();
+            const renda = configDoc.exists ? configDoc.data().renda : 0;
+            document.getElementById('renda-display').innerText = `R$ ${renda.toFixed(2)}`;
 
-                snapshot.forEach(doc => {
-                    const g = doc.data();
-                    total += g.valor;
-                    if(!g.pago) pendente += g.valor;
-                    gastosData.push(g);
-                });
+            // 2. BUSCAR GASTOS
+            const snapshot = await db.collection("gastos")
+                .where("uid", "==", user.uid)
+                .where("mes", "==", m)
+                .where("ano", "==", a)
+                .get();
 
-                document.getElementById('total-mes').innerText = `R$ ${total.toFixed(2)}`;
-                document.getElementById('total-pendente').innerText = `R$ ${pendente.toFixed(2)}`;
+            let totalGeral = 0;
+            let totalPendente = 0;
+            const categorias = { fixo: 0, comida: 0, eletro: 0, lazer: 0, outros: 0 };
+            let atrasadosHtml = '';
+            const hoje = new Date().toISOString().split('T')[0];
+
+            snapshot.forEach((doc) => {
+                const g = doc.data();
+                totalGeral += g.valor;
                 
-                // Busca a renda (você pode ajustar conforme seu sistema de configuração)
-                document.getElementById('renda-display').innerText = `R$ 0,00`; // Ajustar conforme Firestore
-                document.getElementById('saldo-livre').innerText = `R$ ${(0 - total).toFixed(2)}`;
+                if (!g.pago) totalPendente += g.valor;
 
-                renderizarGrafico(gastosData);
-                renderizarVencidos(user.uid);
+                if (categorias[g.cat] !== undefined) {
+                    categorias[g.cat] += g.valor;
+                }
+
+                if (!g.pago && g.dataVenc < hoje) {
+                    atrasadosHtml += `
+                        <div class="item-vencido">
+                            <div><strong>${g.info}</strong><br><small>Vencimento: ${g.dataVenc.split('-').reverse().join('/')}</small></div>
+                            <div style="color:var(--danger); font-weight:bold;">R$ ${g.valor.toFixed(2)}</div>
+                        </div>`;
+                }
             });
-        }
 
-        function renderizarGrafico(gastos) {
-            const cats = { eletro:0, comida:0, lazer:0, fixo:0, outros:0 };
-            gastos.forEach(g => { if(cats[g.categoria] !== undefined) cats[g.categoria] += g.valor; });
+            // Atualiza os Cards com IDs corretos
+            document.getElementById('total-mes').innerText = `R$ ${totalGeral.toFixed(2)}`;
+            document.getElementById('total-pendente').innerText = `R$ ${totalPendente.toFixed(2)}`;
+            document.getElementById('saldo-livre').innerText = `R$ ${(renda - totalGeral).toFixed(2)}`;
+            document.getElementById('lista-vencidos').innerHTML = atrasadosHtml || '<p style="color:var(--success); text-align:center; margin-top:20px;">Tudo em dia!</p>';
 
+            // 3. ATUALIZAR GRÁFICO
             const ctx = document.getElementById('meuGrafico').getContext('2d');
-            if(meuChart) meuChart.destroy();
+            if (meuChart) meuChart.destroy();
+            
             meuChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Eletro', 'Comida', 'Lazer', 'Fixo', 'Outros'],
-                    datasets: [{ data: Object.values(cats), backgroundColor: ['#ff9f43', '#ee5253', '#10ac84', '#54a0ff', '#8395a7'], borderWidth: 0 }]
+                    labels: ['Fixo', 'Comida', 'Eletro', 'Lazer', 'Outros'],
+                    datasets: [{
+                        data: [categorias.fixo, categorias.comida, categorias.eletro, categorias.lazer, categorias.outros],
+                        backgroundColor: ['#512da8', '#2ecc71', '#ff9f43', '#ee5253', '#feca57']
+                    }]
                 },
-                options: { plugins: { legend: { position: 'bottom' } }, cutout: '75%' }
+                options: { responsive: true, maintainAspectRatio: false }
             });
-        }
-
-        function renderizarVencidos(uid) {
-            const hoje = new Date();
-            db.collection("gastos")
-              .where("uid", "==", uid)
-              .where("pago", "==", false)
-              .get().then(snapshot => {
-                  const lista = document.getElementById('lista-vencidos');
-                  let html = "";
-                  snapshot.forEach(doc => {
-                      const g = doc.data();
-                      // Lógica simples de vencimento (ajustar conforme sua data no Firestore)
-                      html += `
-                        <div class="item-vencido">
-                            <div><strong>${g.descricao}</strong></div>
-                            <div style="color:var(--danger); font-weight:bold;">R$ ${g.valor.toFixed(2)}</div>
-                        </div>`;
-                  });
-                  lista.innerHTML = html || `<p style="text-align:center; color:var(--success);">Tudo em dia!</p>`;
-              });
         }
 
         function mudarMes(direcao) {
@@ -245,13 +205,8 @@
             atualizarDashboard();
         }
 
-        // FUNÇÃO DE SAIR (CORRIGIDA)
         function logout() {
-            auth.signOut().then(() => {
-                window.location.href = "index.html";
-            }).catch((error) => {
-                console.error("Erro ao sair:", error);
-            });
+            auth.signOut().then(() => { window.location.href = "index.html"; });
         }
     </script>
 </body>
