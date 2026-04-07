@@ -38,7 +38,16 @@ signInBtn.addEventListener('click', (e) => {
     const email = document.getElementById('login-email').value;
     const pass = document.getElementById('login-pass').value;
 
-    auth.signInWithEmailAndPassword(email, pass)
-        .then(() => window.location.href = "dashboard.html")
-        .catch(error => alert("Login falhou: Verifique os dados."));
+    // No seu script.js, dentro do evento de clique do login:
+auth.signInWithEmailAndPassword(email, pass)
+    .then((userCredential) => {
+        console.log("Logado com sucesso!");
+        // Opcional: Force um pequeno delay para garantir que o token foi gerado
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 500);
+    })
+    .catch((error) => {
+        alert("Erro: " + error.message);
+    });
 });
