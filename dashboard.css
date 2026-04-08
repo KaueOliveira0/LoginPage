@@ -23,37 +23,66 @@ body { background: var(--bg); display: flex; flex-direction: row; min-height: 10
 }
 
 /* --- RESPONSIVIDADE (MOBILE) --- */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
     body, .wrapper {
-        flex-direction: column !important; /* Coloca um embaixo do outro */
+        flex-direction: column !important;
+        display: block !important;
     }
 
+    /* Barra de Topo compacta */
     .sidebar {
-        width: 100% !important; /* Sidebar vira barra de topo */
+        position: sticky !important; /* Gruda no topo ao rolar */
+        top: 0;
+        z-index: 1000;
+        width: 100% !important;
         height: auto !important;
-        padding: 15px !important;
-        text-align: center;
+        padding: 10px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
+    .sidebar h2 { 
+        font-size: 18px !important; 
+        margin-bottom: 5px !important;
+    }
+
+    /* Menu horizontal e pequeno */
     .sidebar ul {
         display: flex !important;
         flex-direction: row !important;
+        flex-wrap: wrap !important;
         justify-content: center !important;
-        gap: 15px !important;
-        margin-top: 15px !important;
+        gap: 10px !important;
+        margin: 5px 0 !important;
     }
 
+    .sidebar ul li { font-size: 12px !important; }
+
+    /* Botão de sair pequeno para não cobrir o conteúdo */
+    .sidebar button, .btn-sair {
+        padding: 5px 15px !important;
+        font-size: 12px !important;
+        margin-top: 5px !important;
+        width: auto !important;
+    }
+
+    /* Área de conteúdo - Ajuste de margem para não sumir atrás do topo */
     .main-content {
-        padding: 15px !important;
-        margin-left: 0 !important; /* GARANTE que não tenha o buraco branco do print */
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 10px !important;
     }
 
+    /* Cards em uma coluna só e centralizados */
     .stats-grid {
-        grid-template-columns: 1fr !important; /* Cards um embaixo do outro */
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
     }
 
-    .top-bar {
-        flex-direction: column !important;
-        gap: 15px !important;
+    .stat-card {
+        width: 100% !important;
+        margin-bottom: 5px !important;
     }
 }
