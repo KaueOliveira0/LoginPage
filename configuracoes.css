@@ -1,0 +1,76 @@
+:root { 
+    --primary: #512da8; 
+    --bg: #f4f7fe; 
+    --shadow: 0 8px 30px rgba(0,0,0,0.05); 
+    --danger: #e74c3c;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+body { background: var(--bg); display: flex; min-height: 100vh; }
+
+/* --- SIDEBAR --- */
+.sidebar { 
+    width: 260px; background: var(--primary); color: white; height: 100vh; 
+    position: fixed; padding: 25px; display: flex; flex-direction: column; 
+}
+.sidebar h2 { font-weight: 700; margin-bottom: 30px; text-align: center; font-size: 1.2rem; }
+.sidebar ul { list-style: none; flex-grow: 1; }
+.sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
+.sidebar li.active { background: rgba(255,255,255,0.2); }
+.sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+
+.btn-sair { 
+    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); 
+    color: white; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; 
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+
+/* --- ÁREA PRINCIPAL --- */
+.main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); display: flex; justify-content: center; }
+
+.config-card { 
+    background: white; padding: 30px; border-radius: 20px; 
+    box-shadow: var(--shadow); width: 100%; max-width: 500px; height: fit-content;
+}
+
+.month-picker { 
+    display: flex; align-items: center; justify-content: center; gap: 15px; margin: 20px 0; 
+}
+.month-picker button { 
+    border: none; background: var(--primary); color: white; 
+    width: 35px; height: 35px; border-radius: 50%; cursor: pointer; 
+}
+
+input { 
+    width: 100%; padding: 15px; margin: 15px 0; 
+    border: 1px solid #ddd; border-radius: 10px; font-size: 16px; 
+}
+
+.btn-salvar { 
+    background: var(--primary); color: white; border: none; padding: 15px; 
+    width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; 
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media screen and (max-width: 850px) {
+    body { display: block !important; }
+
+    .sidebar { 
+        width: 100% !important; height: auto !important; position: relative !important; 
+        padding: 10px !important; flex-direction: row !important;
+    }
+    .sidebar h2, .btn-sair { display: none !important; }
+    .sidebar ul { display: flex; justify-content: center; gap: 10px; }
+
+    .main { 
+        margin-left: 0 !important; width: 100% !important; padding: 20px !important; 
+    }
+
+    .config-card { 
+        padding: 20px !important; 
+        max-width: 100% !important;
+    }
+    
+    input { font-size: 16px !important; } /* Evita zoom no iPhone */
+}
