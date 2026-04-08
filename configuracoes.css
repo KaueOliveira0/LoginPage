@@ -36,19 +36,7 @@ body { background: var(--bg); display: flex; min-height: 100vh; }
 .sidebar li.active { background: rgba(255,255,255,0.2); }
 .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
 
-.btn-sair { 
-    background: rgba(255, 255, 255, 0.1); 
-    border: 1px solid rgba(255, 255, 255, 0.3); 
-    color: white; 
-    padding: 12px; 
-    border-radius: 10px; 
-    cursor: pointer; 
-    width: 100%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 10px; 
-}
+.btn-sair { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; }
 .btn-sair:hover { background: var(--danger); border-color: var(--danger); }
 
 /* --- ÁREA PRINCIPAL --- */
