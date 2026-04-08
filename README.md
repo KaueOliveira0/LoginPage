@@ -3,74 +3,100 @@
 ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![VSCODE](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
-Este é um projeto de **Gestão Financeira Pessoal** focado em praticidade e aprendizado técnico. O sistema permite o controle de rendas e gastos mensais, utilizando uma arquitetura moderna baseada em nuvem para que os dados possam ser acessados tanto pelo computador quanto pelo celular de forma sincronizada.
+Este é um ecossistema de **Gestão Financeira Pessoal** desenvolvido para oferecer controle total sobre rendas e gastos. O projeto evoluiu de um armazenamento local para uma aplicação **Cloud-Native**, permitindo que múltiplos usuários gerenciem suas finanças de forma isolada, segura e sincronizada.
+
 
 ---
 
-## 🌟 Diferenciais do Projeto
+## ❓Como Usar
 
-O grande salto deste projeto foi a transição do armazenamento local (`localStorage`) para o **Google Firebase**. 
+```bash
+https://pagefinanceirokaue.web.app
+```
 
-* **Sincronização Cloud**: Acesse seus dados de qualquer lugar.
-* **Segurança**: Autenticação real via Firebase Auth (E-mail e Senha).
-* **Persistência**: Seus dados não são perdidos ao limpar o cache do navegador.
-* **Interface Moderna**: Sistema de login com transições suaves e dashboard intuitivo.
+---
+
+## 🚀 Evolução e Diferenciais
+
+O projeto foi reestruturado para suportar uma arquitetura de dados escalável e profissional:
+
+* **Multi-Auth (OAuth 2.0):** Autenticação robusta via **Google** e **GitHub**, além do tradicional E-mail/Senha.
+* **Arquitetura Baseada em UID:** Implementação de subcoleções no Firestore (`usuarios/{uid}/gastos`), garantindo que cada usuário acesse apenas seus próprios registros.
+* **Queries Otimizadas:** Configuração de **Índices Compostos** no Firebase para filtragem de gastos por mês, ano e status de pagamento em tempo real.
+* **Recuperação de Acesso:** Fluxo de redefinição de senha via e-mail integrado para usuários de login manual.
+* **Interface Responsiva:** Dashboard intuitivo com cálculo automático de saldo livre, pendências e total mensal.
 
 ---
 
 ## 🛠️ Tecnologias e Ferramentas
 
-* **Frontend**: HTML5 Semântico e CSS3 (com animações de Keyframes).
-* **Lógica**: JavaScript Vanilla (ES6+).
-* **Backend (BaaS)**: 
-    * **Authentication**: Controle de acesso de usuários.
-    * **Firestore Database**: Banco de Dados NoSQL para salvar transações em tempo real.
-* **Hospedagem**: Sugerido Netlify ou Firebase Hosting.
+* **Frontend:** HTML5 Semântico, CSS3 (Flexbox/Grid) e FontAwesome 6.
+* **Lógica:** JavaScript Vanilla (ES6+) com foco em programação assíncrona e manipulação de DOM.
+* **Backend (Firebase Services):**
+    * **Authentication:** Gestão de provedores sociais e domínios autorizados (OAuth).
+    * **Cloud Firestore:** Banco de Dados NoSQL com estrutura de subcoleções otimizada.
+    * **Hosting:** Deploy contínuo para acesso via web.
 
 ---
 
-## 📁 Estrutura de Arquivos
+## 📂 Estrutura do Projeto
 
 ```text
-├── index.html          # Tela de entrada (Login e Registro)
-├── dashboard.html      # Resumo financeiro principal
-├── financeiro.html     # Lógica detalhada de entradas/saídas
-├── configuracoes.html  # Definição de metas e perfil
-├── style.css           # Identidade visual e responsividade
-└── script.js           # Integração com Firebase e lógica de navegação
+├── index.html          # Portal de acesso com Auth Social & Email
+├── dashboard.html      # Painel de indicadores (Renda, Gastos, Saldo)
+├── financeiro.html     # CRUD de transações e controle de fluxo
+├── style.css           # Design responsivo e animações de transição
+├── script.js           # Lógica de Login, Registro e Auth Social
+└── financeiro.js       # Integração com Firestore e cálculos do Dashboard
 ```
 
+---
 
 ## 🚀 Como Configurar
-Clonar o projeto:
+1. Clonar o projeto:
 
 ```Bash 
 git clone [https://github.com/KaueOliveira0/LoginPage.git](https://github.com/KaueOliveira0/LoginPage.git)
 ```
-Configurar o Firebase:
+2. Configurar o Firebase:
 
-* Crie um projeto no Firebase Console.
+No Firebase Console, ative Google e GitHub em Authentication > Sign-in method.
 
-*  Ative o método E-mail/Senha em Authentication.
+Em Settings > Authorized Domains, adicione 127.0.0.1 e seu domínio final.
 
-* Crie um banco Firestore em modo de teste.
+Defina um E-mail de Suporte nas configurações gerais do projeto.
 
-* No index.html, substitua as constantes no firebaseConfig pelas chaves do seu projeto.
+3. Habilitar Índices:
 
-Execução:
+Ao rodar o projeto, clique no link de erro do console para gerar automaticamente os índices compostos necessários para a coleção de gastos.
+
+---
+
+## Execução:
 
 No VS Code, clique com o botão direito no index.html e selecione Open with Live Server.
 
+---
+
 ## 📈 Roadmap / Próximas Implementações
-[ ] Implementação de gráficos de pizza para categorias de gastos.
+* [x] Login Social (Google/GitHub).
 
-[ ] Sistema de notificações para contas a vencer.
+* [x] Arquitetura de dados por Usuário (UID).
 
-[ ] Modo Escuro (Dark Mode).
+* [x] Sistema de recuperação de senha.
 
-[ ] Conversão para PWA (App instalável no Android/iOS).
+* [ ] Gráficos dinâmicos por categoria.
+
+* [ ] Sistema de metas compartilhadas (Modo Casal).
+
+* [ ] Modo Escuro (Dark Mode).
+
+---
 
 ## 👤 Autor
 Kaue Desenvolvedor focado em soluções práticas e aprendizado constante de novas tecnologias.

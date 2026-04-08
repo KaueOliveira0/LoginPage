@@ -208,3 +208,32 @@ body{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+/* --- RESPONSIVIDADE PARA CELULAR (Telas até 768px) --- */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%; /* Ocupa quase toda a largura da tela */
+        min-height: 550px; /* Dá mais espaço vertical para os campos */
+    }
+
+    /* Esconde o painel lateral roxo no mobile para focar no formulário */
+    .toggle-container {
+        display: none; 
+    }
+
+    /* Faz os formulários ocuparem 100% da largura do container */
+    .sign-in, .sign-up {
+        width: 100%;
+    }
+
+    /* Ajusta as animações para não quebrarem o layout sem o toggle */
+    .container.active .sign-in, 
+    .container.active .sign-up {
+        transform: none;
+    }
+    
+    .container.active .sign-up {
+        opacity: 1;
+        z-index: 5;
+    }
+}
