@@ -89,64 +89,56 @@ th { background: #fafafa; color: var(--text-secondary); font-size: 13px; text-tr
 .riscado { text-decoration: line-through; opacity: 0.5; }
 
 /* --- RESPONSIVIDADE (MOBILE AJUSTADA) --- */
-@media screen and (max-width: 850px) {
-    body { 
-        display: block !important; 
-        overflow-x: hidden !important;
-    }
-    
-    /* Sidebar vira barra de topo */
-    .sidebar { 
-        width: 100% !important; 
-        height: auto !important; 
-        position: relative !important; 
-        padding: 10px !important; 
-        flex-direction: row !important;
-    }
-    
-    /* Esconde o título e botão de sair para sobrar espaço */
-    .sidebar h2, .btn-sair { display: none !important; } 
-    
-    /* Remove a margem da esquerda que "esmaga" o site no seu print */
-    .main { 
-        margin-left: 0 !important; 
-        width: 100% !important; 
-        padding: 15px !important; 
-    }
 
-    /* FAZ O FORMULÁRIO OCUPAR A TELA TODA */
-    .form-box { 
-        flex-direction: column !important; 
-        align-items: stretch !important; 
-        gap: 10px !important;
-    }
-    
-    /* Inputs grandes para o dedo conseguir clicar */
-    .form-box input, 
-    .form-box select, 
-    .btn-salvar { 
-        width: 100% !important; 
-        height: 45px !important;
-        font-size: 16px !important; /* Evita zoom automático no iPhone */
-    }
+@media screen and (max-width: 800px) {
+    body { display: block !important; }
 
-    /* Seletor de mês centralizado */
-    .month-picker {
+    .sidebar {
         width: 100% !important;
-        justify-content: center !important;
-        margin: 0 auto 20px auto !important;
+        height: auto !important;
+        position: relative !important;
+        padding: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
-    /* Ajuste da Tabela para virar Cards */
-    thead { display: none !important; }
-    tr { 
-        display: block !important; 
-        margin-bottom: 15px !important; 
-        border: 1px solid #ddd !important;
+    .sidebar ul {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
     }
-    td { 
-        display: flex !important; 
-        justify-content: space-between !important; 
-        padding: 12px 10px !important;
+
+    .sidebar li { padding: 8px !important; margin-bottom: 0 !important; font-size: 13px; }
+
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 15px !important;
     }
+
+    .top-header { flex-direction: column; gap: 15px; }
+
+    .stats-grid {
+        grid-template-columns: 1fr !important; /* Um card por linha */
+    }
+
+    .content-row {
+        flex-direction: column !important;
+    }
+
+    canvas { max-width: 100% !important; height: auto !important; }
+}
+
+.chart-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important; /* Impede que o gráfico "escape" */
+}
+
+/* Força o canvas a respeitar o container */
+canvas {
+    max-height: 300px !important;
+    width: 100% !important;
 }
