@@ -15,14 +15,30 @@ body { background: var(--bg); display: flex; min-height: 100vh; color: var(--tex
 
 /* --- SIDEBAR (Mantendo o padrão do Dashboard) --- */
 .sidebar { 
-    width: 260px; background: var(--primary); color: white; height: 100vh; 
-    position: fixed; padding: 25px; display: flex; flex-direction: column; 
+    width: 260px; 
+    background: var(--primary); 
+    color: white; 
+    height: 100vh; 
+    position: fixed; 
+    padding: 25px; 
+    display: flex; 
+    flex-direction: column; 
+    z-index: 1000;
+    justify-content: space-between;
 }
-.sidebar h2 { font-weight: 700; margin-bottom: 30px; text-align: center; font-size: 1.2rem; }
+
+.main { 
+    margin-left: 260px; 
+    padding: 40px; 
+    width: calc(100% - 260px); 
+    flex-grow: 1;
+}
+
+/* Sidebar interna */
+.sidebar h2 { font-weight: 700; margin-bottom: 30px; text-align: center; }
 .sidebar ul { list-style: none; flex-grow: 1; }
 .sidebar li { padding: 15px; border-radius: 12px; margin-bottom: 8px; transition: 0.3s; }
 .sidebar li.active { background: rgba(255,255,255,0.2); }
-.sidebar li:hover { background: rgba(255,255,255,0.1); }
 .sidebar a { color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; font-weight: 600; }
 
 .btn-sair { 
@@ -37,6 +53,7 @@ body { background: var(--bg); display: flex; min-height: 100vh; color: var(--tex
     align-items: center; 
     justify-content: center; 
     gap: 10px; 
+
 }
 .btn-sair:hover { background: var(--danger); border-color: var(--danger); }
 
@@ -71,44 +88,65 @@ th { background: #fafafa; color: var(--text-secondary); font-size: 13px; text-tr
 .pago-false { background: #f1f3f5; color: var(--text-secondary); }
 .riscado { text-decoration: line-through; opacity: 0.5; }
 
-/* --- RESPONSIVIDADE (TELEMÓVEL) --- */
+/* --- RESPONSIVIDADE (MOBILE AJUSTADA) --- */
 @media screen and (max-width: 850px) {
-    body { display: block; }
+    body { 
+        display: block !important; 
+        overflow-x: hidden !important;
+    }
     
+    /* Sidebar vira barra de topo */
     .sidebar { 
-        width: 100%; height: auto; position: relative; padding: 15px; 
-        flex-direction: row; justify-content: space-around; 
+        width: 100% !important; 
+        height: auto !important; 
+        position: relative !important; 
+        padding: 10px !important; 
+        flex-direction: row !important;
     }
-    .sidebar h2, .btn-sair { display: none; } /* Esconde o que ocupa muito espaço */
-    .sidebar ul { display: flex; width: 100%; justify-content: center; gap: 5px; }
-    .sidebar li { margin-bottom: 0; padding: 10px; }
-    .sidebar a span { display: none; } /* Deixa apenas os ícones no menu mobile se quiser economizar espaço */
-
-    .main { margin-left: 0; width: 100%; padding: 15px; }
     
-    .form-box { flex-direction: column; align-items: stretch; }
-    .form-box input, .form-box select, .btn-salvar { width: 100%; }
-
-    /* TRANSFORMA A TABELA EM CARDS NO MOBILE */
-    thead { display: none; } /* Esconde o cabeçalho */
+    /* Esconde o título e botão de sair para sobrar espaço */
+    .sidebar h2, .btn-sair { display: none !important; } 
     
+    /* Remove a margem da esquerda que "esmaga" o site no seu print */
+    .main { 
+        margin-left: 0 !important; 
+        width: 100% !important; 
+        padding: 15px !important; 
+    }
+
+    /* FAZ O FORMULÁRIO OCUPAR A TELA TODA */
+    .form-box { 
+        flex-direction: column !important; 
+        align-items: stretch !important; 
+        gap: 10px !important;
+    }
+    
+    /* Inputs grandes para o dedo conseguir clicar */
+    .form-box input, 
+    .form-box select, 
+    .btn-salvar { 
+        width: 100% !important; 
+        height: 45px !important;
+        font-size: 16px !important; /* Evita zoom automático no iPhone */
+    }
+
+    /* Seletor de mês centralizado */
+    .month-picker {
+        width: 100% !important;
+        justify-content: center !important;
+        margin: 0 auto 20px auto !important;
+    }
+
+    /* Ajuste da Tabela para virar Cards */
+    thead { display: none !important; }
     tr { 
-        display: block; margin-bottom: 15px; border: 1px solid #eee; 
-        border-radius: 15px; padding: 10px; background: #fff; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        display: block !important; 
+        margin-bottom: 15px !important; 
+        border: 1px solid #ddd !important;
     }
-    
     td { 
-        display: flex; justify-content: space-between; align-items: center; 
-        border: none; padding: 10px 5px; font-size: 14px; text-align: right;
-    }
-    
-    /* Cria as etiquetas automáticas usando o data-label que te mandei no JS anterior */
-    td::before { 
-        content: attr(data-label); 
-        font-weight: 700; 
-        color: var(--primary); 
-        text-transform: uppercase;
-        font-size: 11px;
+        display: flex !important; 
+        justify-content: space-between !important; 
+        padding: 12px 10px !important;
     }
 }
