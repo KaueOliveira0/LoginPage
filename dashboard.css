@@ -23,17 +23,17 @@ body { background: var(--bg); display: flex; flex-direction: row; min-height: 10
 }
 
 /* --- RESPONSIVIDADE (MOBILE) --- */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
+    /* 1. Remove qualquer margem que jogue o conteúdo para o lado */
     body, .wrapper {
-        flex-direction: column !important;
         display: block !important;
+        width: 100% !important;
+        overflow-x: hidden; /* Impede o scroll para os lados */
     }
 
-    /* Barra de Topo compacta */
+    /* 2. Sidebar vira uma barra de navegação fina */
     .sidebar {
-        position: sticky !important; /* Gruda no topo ao rolar */
-        top: 0;
-        z-index: 1000;
+        position: relative !important;
         width: 100% !important;
         height: auto !important;
         padding: 10px !important;
@@ -42,47 +42,52 @@ body { background: var(--bg); display: flex; flex-direction: row; min-height: 10
         align-items: center !important;
     }
 
-    .sidebar h2 { 
-        font-size: 18px !important; 
-        margin-bottom: 5px !important;
-    }
+    .sidebar h2 { font-size: 1.2rem !important; margin: 0 !important; }
 
-    /* Menu horizontal e pequeno */
+    /* Menu em linha horizontal */
     .sidebar ul {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
         gap: 10px !important;
-        margin: 5px 0 !important;
+        margin: 10px 0 !important;
+        padding: 0 !important;
     }
 
     .sidebar ul li { font-size: 12px !important; }
 
-    /* Botão de sair pequeno para não cobrir o conteúdo */
-    .sidebar button, .btn-sair {
-        padding: 5px 15px !important;
-        font-size: 12px !important;
-        margin-top: 5px !important;
+    /* Botão de sair pequeno abaixo do menu */
+    .sidebar .btn-sair, .sidebar button:last-child {
         width: auto !important;
+        padding: 5px 15px !important;
+        font-size: 11px !important;
+        margin: 0 !important;
     }
 
-    /* Área de conteúdo - Ajuste de margem para não sumir atrás do topo */
+    /* 3. CONTEÚDO PRINCIPAL - Onde estão os valores */
     .main-content {
-        margin-left: 0 !important;
+        margin: 0 !important;
+        padding: 15px !important;
         width: 100% !important;
-        padding: 10px !important;
     }
 
-    /* Cards em uma coluna só e centralizados */
+    /* Top bar do dashboard (Abril 2026) */
+    .top-bar {
+        flex-direction: column !important;
+        padding: 10px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* 4. CARDS DE VALORES - Centralizar e empilhar */
     .stats-grid {
         display: flex !important;
         flex-direction: column !important;
-        gap: 10px !important;
+        align-items: center !important;
+        gap: 15px !important;
+        width: 100% !important;
     }
 
     .stat-card {
-        width: 100% !important;
-        margin-bottom: 5px !important;
+        width: 90% !important; /* Quase toda a largura, mas com respiro nas bordas */
+        margin: 0 auto !important;
     }
 }
