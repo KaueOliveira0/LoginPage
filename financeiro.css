@@ -129,6 +129,42 @@ th { background: #fafafa; color: var(--text-secondary); font-size: 13px; text-tr
     }
 
     canvas { max-width: 100% !important; height: auto !important; }
+
+    .form-box { 
+        flex-direction: column !important; 
+        align-items: stretch !important; 
+        gap: 10px !important;
+    }
+    
+    /* Inputs grandes para o dedo conseguir clicar */
+    .form-box input, 
+    .form-box select, 
+    .btn-salvar { 
+        width: 100% !important; 
+        height: 45px !important;
+        font-size: 16px !important; /* Evita zoom automático no iPhone */
+    }
+
+    /* Seletor de mês centralizado */
+    .month-picker {
+        width: 100% !important;
+        justify-content: center !important;
+        margin: 0 auto 20px auto !important;
+    }
+
+    /* Ajuste da Tabela para virar Cards */
+    thead { display: none !important; }
+    tr { 
+        display: block !important; 
+        margin-bottom: 15px !important; 
+        border: 1px solid #ddd !important;
+    }
+    td { 
+        display: flex !important; 
+        justify-content: space-between !important; 
+        padding: 12px 10px !important;
+    }
+
 }
 
 .chart-box {
