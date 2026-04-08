@@ -81,21 +81,46 @@ input {
 @media screen and (max-width: 850px) {
     body { display: block !important; }
 
-    .sidebar { 
-        width: 100% !important; height: auto !important; position: relative !important; 
-        padding: 10px !important; flex-direction: row !important;
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        padding: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
-    .sidebar h2, .btn-sair { display: none !important; }
-    .sidebar ul { display: flex; justify-content: center; gap: 10px; }
 
-    .main { 
-        margin-left: 0 !important; width: 100% !important; padding: 20px !important; 
+    .sidebar ul {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
     }
+
+    .sidebar li { padding: 8px !important; margin-bottom: 0 !important; font-size: 13px; }
+
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 15px !important;
+    }
+
+    .top-header { flex-direction: column; gap: 15px; }
+
 
     .config-card { 
         padding: 20px !important; 
         max-width: 100% !important;
     }
+    canvas { max-width: 100% !important; height: auto !important; }
     
     input { font-size: 16px !important; } /* Evita zoom no iPhone */
+    .form-box input, 
+    .form-box select, 
+    .btn-salvar { 
+        width: 100% !important; 
+        height: 45px !important;
+        font-size: 16px !important; /* Evita zoom automático no iPhone */
+    }
 }
