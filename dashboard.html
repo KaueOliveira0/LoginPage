@@ -5,11 +5,20 @@
     <meta charset="UTF-8">
     <title>DevPanel - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="dashboard.css?v=3">g
+    <link rel="stylesheet" href="dashboard.css?v=20">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #512da8; --bg: #f4f7fe; --shadow: 0 8px 30px rgba(0,0,0,0.05); --danger: #e74c3c; --success: #2ecc71; }
+
+        :root { 
+            --primary: #512da8; 
+            --bg: #f4f7fe; 
+            --shadow: 0 8px 30px rgba(0,0,0,0.05); 
+            --danger: #e74c3c; 
+            --success: #2ecc71; 
+        }
+
+       /* :root { --primary: #512da8; --bg: #f4f7fe; --shadow: 0 8px 30px rgba(0,0,0,0.05); --danger: #e74c3c; --success: #2ecc71; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); display: flex; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
         
@@ -42,7 +51,9 @@
         .vencimentos-box { flex: 1.2; background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); border-top: 5px solid var(--danger); min-height: 400px; }
         
         .item-vencido { background: #fff5f5; border: 1px solid #feb2b2; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        canvas { max-height: 300px; width: 100% !important; }
+        canvas { max-height: 300px; width: 100% !important; }*/
+
+        
     </style>
 </head>
 <body>
@@ -92,7 +103,9 @@
         <div class="content-row">
             <div class="chart-box">
                 <h3>Gastos por Categoria</h3>
-                <canvas id="meuGrafico"></canvas>
+                <div class="chart-container" style="position: relative; height:300px; width:100%">
+                    <canvas id="meuGrafico"></canvas>
+                </div>
             </div>
             <div class="vencimentos-box">
                 <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i> Vencimentos Atrasados</h3>
